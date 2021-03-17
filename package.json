@@ -3,8 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
     "build": "next build",
+    "dev": "next dev",
+    "lint": "eslint --ext .js,.jsx,.ts,.tsx .",
+    "lint-fix": "yarn lint --fix",
     "start": "next start",
     "watch-tsc": "tsc --watch --noemit"
   },
@@ -15,8 +17,10 @@
     "sass": "^1.32.8"
   },
   "devDependencies": {
+    "@michchan/eslint-config": "^1.7.0",
     "@types/node": "^14.14.31",
     "@types/react": "^17.0.2",
+    "eslint": "^7.22.0",
     "typescript": "^4.2.2"
   }
 }
