@@ -1,17 +1,18 @@
-import type { AppProps } from 'next/app'
+import { AppProps } from 'next/app'
+import { ReactNode } from 'react'
 import Head from 'next/head'
 import '../styles/globals.scss'
 
-function MyApp({ Component, pageProps }: AppProps) {
-  return (
-    <>
-      <Head>
-        <title>Create Next App</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-      <Component {...pageProps} />
-    </>
-  )
-}
+const MyApp = ({ Component, pageProps }: AppProps): ReactNode => (
+  <>
+    <Head>
+      <title>{'Create Next App'}</title>
+      <link
+        href='/favicon.ico'
+        rel='icon'/>
+    </Head>
+    <Component {...pageProps}/>
+  </>
+)
 
 export default MyApp
