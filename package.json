@@ -3,8 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "build": "next build && next export",
+    "build": "yarn generate-no-lang-fallback-pages && next build && next export && yarn remove-no-lang-fallback-pages",
     "dev": "concurrently -n next,tsm \"next dev\" \"yarn tsm-watch\"",
+    "generate-no-lang-fallback-pages": "node scripts/generateNoLangFallbackPages",
+    "remove-no-lang-fallback-pages": "node scripts/removeNoLangFallbackPages",
     "lint": "eslint --ext .js,.jsx,.ts,.tsx .",
     "lint-fix": "yarn lint --fix",
     "start": "serve out",
@@ -15,6 +17,7 @@
   },
   "dependencies": {
     "http-status-codes": "^2.1.4",
+    "lodash": "^4.17.21",
     "next": "10.0.7",
     "next-i18next": "^8.1.2",
     "react": "17.0.1",
