@@ -1,18 +1,11 @@
 import { AppProps } from 'next/app'
-import { ReactNode } from 'react'
-import Head from 'next/head'
+import { FunctionComponent } from 'react'
+import { appWithTranslation } from 'next-i18next'
+
 import '../styles/globals.scss'
 
-const MyApp = ({ Component, pageProps }: AppProps): ReactNode => (
-  <>
-    <Head>
-      <title>{'Create Next App'}</title>
-      <link
-        href='/favicon.ico'
-        rel='icon'/>
-    </Head>
-    <Component {...pageProps}/>
-  </>
+const MyApp: FunctionComponent<AppProps> = ({ Component, pageProps }) => (
+  <Component {...pageProps}/>
 )
 
-export default MyApp
+export default appWithTranslation(MyApp)

@@ -1,67 +1,17 @@
 import { ReactNode } from 'react'
-import styles from '../styles/Home.module.scss'
+import { useRouter } from 'next/router'
+import { i18n } from '../../next-i18next.config'
 
-const Home = (): ReactNode => (
-  <div className={styles.container}>
-    <main className={styles.main}>
-      <h1 className={styles.title}>
-        {'[Hi] Welcome to '}
-        <a href='https://nextjs.org'>{'Next.js!'}</a>
-      </h1>
+const HomeFallback = (): ReactNode => {
+  const router = useRouter()
+  // Make sure we're in the browser
+  if (typeof window !== 'undefined')
+    // @TODO: Use locale on localStorage / browser preference
+    router.replace(`${i18n.defaultLocale}/${router.pathname}`)
 
-      <p className={styles.description}>
-        {'Get started by editing'}
-        {' '}
-        <code className={styles.code}>{'pages/index.js'}</code>
-      </p>
+  return null
+}
 
-      <div className={styles.grid}>
-        <a
-          className={styles.card}
-          href='https://nextjs.org/docs'>
-          <h3>{'Documentation &rarr;'}</h3>
-          <p>{'Find in-depth information about Next.js features and API.'}</p>
-        </a>
+HomeFallback.displayName = 'HomeFallback'
 
-        <a
-          className={styles.card}
-          href='https://nextjs.org/learn'>
-          <h3>{'Learn &rarr;'}</h3>
-          <p>{'Learn about Next.js in an interactive course with quizzes!'}</p>
-        </a>
-
-        <a
-          className={styles.card}
-          href='https://github.com/vercel/next.js/tree/master/examples'>
-          <h3>{'Examples &rarr;'}</h3>
-          <p>{'Discover and deploy boilerplate example Next.js projects.'}</p>
-        </a>
-
-        <a
-          className={styles.card}
-          href='https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app'>
-          <h3>{'Deploy &rarr;'}</h3>
-          <p>
-            {'Instantly deploy your Next.js site to a public URL with Vercel.'}
-          </p>
-        </a>
-      </div>
-    </main>
-
-    <footer className={styles.footer}>
-      <a
-        href='https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app'
-        rel='noopener noreferrer'
-        target='_blank'>
-        {'Powered by'}
-        {' '}
-        <img
-          alt='Vercel Logo'
-          className={styles.logo}
-          src='/vercel.svg'/>
-      </a>
-    </footer>
-  </div>
-)
-
-export default Home
+export default HomeFallback
