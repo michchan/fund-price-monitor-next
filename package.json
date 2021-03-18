@@ -3,11 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "build": "next build",
+    "build": "next build && next export",
     "dev": "concurrently -n next,tsm \"next dev\" \"yarn tsm-watch\"",
     "lint": "eslint --ext .js,.jsx,.ts,.tsx .",
     "lint-fix": "yarn lint --fix",
-    "start": "next start",
+    "start": "serve out",
     "tsm": "tsm src",
     "tsm-watch": "yarn tsm -w",
     "watch-tsc": "tsc --watch --noemit"
@@ -25,6 +25,7 @@
     "@types/react": "^17.0.2",
     "concurrently": "^6.0.0",
     "eslint": "^7.22.0",
+    "serve": "^11.3.2",
     "typed-scss-modules": "^4.1.0",
     "typescript": "^4.2.2"
   }
