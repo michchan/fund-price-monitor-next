@@ -4,7 +4,7 @@ import styles from 'styles/Home.module.scss'
 import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { GetStaticPaths, GetStaticProps } from 'next'
-import { i18n } from '../../../next-i18next.config'
+import { getFallbackLocale, getLocalesPaths } from 'utils/i18n'
 
 const Home: FunctionComponent = () => {
   const { t } = useTranslation('common')
@@ -80,14 +80,15 @@ const Home: FunctionComponent = () => {
 
 Home.displayName = 'Home'
 
+// @REASON: required by NextJS
 // eslint-disable-next-line require-await
 export const getStaticPaths: GetStaticPaths = async () => ({
-  paths: i18n.locales.map(locale => ({ params: { locale } })),
+  paths: getLocalesPaths(),
   fallback: false,
 })
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const locale = (params?.locale || i18n.defaultLocale) as string
+  const locale = (params?.locale || getFallbackLocale()) as string
   return {
     props: {
       ...await serverSideTranslations(locale, ['common']),
