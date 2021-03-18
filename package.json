@@ -8,6 +8,7 @@
     "lint": "eslint --ext .js,.jsx,.ts,.tsx .",
     "lint-fix": "yarn lint --fix",
     "start": "serve out",
+    "sync-i18n-json": "node scripts/syncI18nJSONs",
     "tsm": "tsm src",
     "tsm-watch": "yarn tsm -w",
     "watch-tsc": "tsc --watch --noemit"
