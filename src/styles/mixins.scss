@@ -1,0 +1,13 @@
+$tablet_thres: 768px;
+$mobile_thres: 450px;
+
+@mixin font-size($desktop, $tablet, $mobile) {
+  font-size: $desktop;
+
+  @media screen and (max-width: $tablet_thres) {
+    font-size: $tablet; 
+  }
+  @media screen and (max-width: $mobile_thres) {
+    font-size: $mobile;
+  }
+}
