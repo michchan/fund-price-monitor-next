@@ -18,6 +18,12 @@ const Home: FunctionComponent = () => {
           <h1 className={styles.titleSection_title}>{t('title')}</h1>
           <p className={styles.titleSection_subtitle}>{t('subtitle')}</p>
         </section>
+        <section className={styles.filterSection}>
+          <input type='select'/>
+        </section>
+        <section className={styles.tableSection}>
+          <div>{'table'}</div>
+        </section>
       </main>
       <PageFooter/>
     </div>

@@ -1,4 +1,4 @@
-@import './colors.scss', './mixins.scss';
+@import './colors.scss', './mixins.scss', './constants.scss';
 
 .container {
   min-height: 100vh;
@@ -18,12 +18,12 @@
 }
 
 .titleSection {
-  padding: 24px 12px;
-  min-height: 300px;
+  padding: $common_padding_verti $common_padding_horiz;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-end;
   align-items: center;
+  @include responsive('min-height', 300px, 240px, 180px);
 
   & > * {
     text-align: center;
@@ -32,12 +32,20 @@
   &_title {
     margin-bottom: 12px;
     color: $color_title;
-    @include font-size(42px, 36px, 24px)
+    @include responsive('font-size', 42px, 36px, 24px);
   } 
 
   &_subtitle {
     margin-top: 0;
     color: $color_subtitle;
-    @include font-size(24px, 18px, 16px)
+    @include responsive('font-size', 24px, 18px, 16px);
   }
+}
+
+.filterSection {
+  padding: $common_padding_verti $common_padding_horiz;
+}
+
+.tableSection {
+  padding: $common_padding_verti $common_padding_horiz;
 }

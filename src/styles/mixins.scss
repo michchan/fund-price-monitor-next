@@ -1,13 +1,12 @@
-$tablet_thres: 768px;
-$mobile_thres: 450px;
+@import './constants.scss';
 
-@mixin font-size($desktop, $tablet, $mobile) {
-  font-size: $desktop;
+@mixin responsive($property, $desktop, $tablet, $mobile) {
+  #{$property}: $desktop;
 
   @media screen and (max-width: $tablet_thres) {
-    font-size: $tablet; 
+    #{$property}: $tablet; 
   }
   @media screen and (max-width: $mobile_thres) {
-    font-size: $mobile;
+    #{$property}: $mobile;
   }
 }
