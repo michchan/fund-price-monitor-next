@@ -2,11 +2,24 @@
 const fs = require('fs')
 
 const PAGES_PATH = 'src/pages'
-const LOCALE_PAGES_PATH = `${PAGES_PATH}/[locale]`
+const LOCALE_DIRNAME = '[locale]'
+const LOCALE_PAGES_PATH = `${PAGES_PATH}/${LOCALE_DIRNAME}`
 
-// E.g. ['index.tsx', 'about.tsx']
-const pageFilenames = fs.readdirSync(LOCALE_PAGES_PATH)
+const isDir = name => !/(\.js|\.ts|\.tsx)$/.test(name)
 
-pageFilenames.forEach(filename => {
-  fs.unlinkSync(`${PAGES_PATH}/${filename}`)
-})
+const remove = path => {
+  // E.g. ['index.tsx', 'about.tsx']
+  const pathnames = fs.readdirSync(path)
+
+  pathnames.forEach(pathname => {
+    const unlinkPath = `${path.replace(LOCALE_DIRNAME, '')}/${pathname}`.replace(/\/+/g, '/')
+
+    if (isDir(pathname)) {
+      remove(`${path}/${pathname}`)
+      return
+    }
+    fs.unlinkSync(unlinkPath)
+  })
+}
+
+remove(LOCALE_PAGES_PATH)
