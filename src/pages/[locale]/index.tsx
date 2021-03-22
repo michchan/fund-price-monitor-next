@@ -1,21 +1,17 @@
 import { FunctionComponent } from 'react'
-import Head from 'next/head'
 import styles from 'styles/Home.module.scss'
 import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { GetStaticPaths, GetStaticProps } from 'next'
 import { getFallbackLocale, getLocalesPaths } from 'utils/i18n'
 
+import PageHead from 'components/PageHead'
+
 const Home: FunctionComponent = () => {
   const { t } = useTranslation('common')
   return (
     <div className={styles.container}>
-      <Head>
-        <title>{t('title')}</title>
-        <link
-          href='/favicon.ico'
-          rel='icon'/>
-      </Head>
+      <PageHead/>
       <main className={styles.main}>
         <h1 className={styles.title}>
           {'[Hi] Welcome to '}
