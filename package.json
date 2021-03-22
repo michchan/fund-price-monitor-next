@@ -13,7 +13,7 @@
     "sync-i18n-json": "node scripts/syncI18nJSONs",
     "tsm": "tsm src --nameFormat none",
     "tsm-watch": "yarn tsm -w",
-    "watch-tsc": "tsc --watch --noemit"
+    "tsc-watch": "tsc --watch --noemit"
   },
   "dependencies": {
     "html-react-parser": "^1.2.4",
