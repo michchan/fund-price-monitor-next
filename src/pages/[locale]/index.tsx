@@ -15,8 +15,8 @@ const Home: FunctionComponent = () => {
       <PageDocumentHead/>
       <main className={styles.main}>
         <section className={styles.titleSection}>
-          <h1 className={styles.title}>{t('title')}</h1>
-          <p className={styles.subtitle}>{t('subtitle')}</p>
+          <h1 className={styles.titleSection_title}>{t('title')}</h1>
+          <p className={styles.titleSection_subtitle}>{t('subtitle')}</p>
         </section>
       </main>
       <PageFooter/>
