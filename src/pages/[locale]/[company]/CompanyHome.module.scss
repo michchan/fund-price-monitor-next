@@ -1,4 +1,6 @@
-@import './colors.scss', './mixins.scss', './constants.scss';
+@import '../../../styles/colors.scss';
+@import '../../../styles/mixins.scss';
+@import '../../../styles/constants.scss';
 
 .container {
   min-height: 100vh;

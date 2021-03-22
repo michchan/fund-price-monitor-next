@@ -1,51 +1,18 @@
 import { FunctionComponent } from 'react'
-import styles from 'styles/Home.module.scss'
-import { useTranslation } from 'next-i18next'
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
-import { GetStaticPaths, GetStaticProps } from 'next'
-import { getFallbackLocale, getLocalesPaths } from 'utils/i18n'
-
-import PageDocumentHead from 'components/PageDocumentHead'
-import PageFooter from 'components/PageFooter'
+import { useRouter } from 'next/router'
+import { getFallbackLocale } from 'utils/i18n'
+import { companyList } from 'constants/companies'
 
 const Home: FunctionComponent = () => {
-  const { t } = useTranslation('common')
-  return (
-    <div className={styles.container}>
-      <PageDocumentHead/>
-      <main className={styles.main}>
-        <section className={styles.titleSection}>
-          <h1 className={styles.titleSection_title}>{t('title')}</h1>
-          <p className={styles.titleSection_subtitle}>{t('subtitle')}</p>
-        </section>
-        <section className={styles.filterSection}>
-          <input type='select'/>
-        </section>
-        <section className={styles.tableSection}>
-          <div>{'table'}</div>
-        </section>
-      </main>
-      <PageFooter/>
-    </div>
-  )
+  const router = useRouter()
+  // Make sure we're in the browser
+  if (typeof window !== 'undefined')
+    // Fallback to the default company
+    router.replace(`${getFallbackLocale()}/${companyList[0]}`)
+
+  return null
 }
 
 Home.displayName = 'Home'
-
-// @REASON: required by NextJS
-// eslint-disable-next-line require-await
-export const getStaticPaths: GetStaticPaths = async () => ({
-  paths: getLocalesPaths(),
-  fallback: false,
-})
-
-export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const locale = (params?.locale || getFallbackLocale()) as string
-  return {
-    props: {
-      ...await serverSideTranslations(locale, ['common']),
-    },
-  }
-}
 
 export default Home
