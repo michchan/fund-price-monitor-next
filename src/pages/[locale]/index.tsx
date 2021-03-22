@@ -5,13 +5,14 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { GetStaticPaths, GetStaticProps } from 'next'
 import { getFallbackLocale, getLocalesPaths } from 'utils/i18n'
 
-import PageHead from 'components/PageHead'
+import PageDocumentHead from 'components/PageDocumentHead'
+import PageFooter from 'components/PageFooter'
 
 const Home: FunctionComponent = () => {
   const { t } = useTranslation('common')
   return (
     <div className={styles.container}>
-      <PageHead/>
+      <PageDocumentHead/>
       <main className={styles.main}>
         <h1 className={styles.title}>
           {'[Hi] Welcome to '}
@@ -56,20 +57,7 @@ const Home: FunctionComponent = () => {
           </a>
         </div>
       </main>
-
-      <footer className={styles.footer}>
-        <a
-          href='https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app'
-          rel='noopener noreferrer'
-          target='_blank'>
-          {'Powered by'}
-          {' '}
-          <img
-            alt='Vercel Logo'
-            className={styles.logo}
-            src='/vercel.svg'/>
-        </a>
-      </footer>
+      <PageFooter/>
     </div>
   )
 }

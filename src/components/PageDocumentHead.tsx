@@ -6,7 +6,7 @@ export interface Props {
   titlePrefixes?: string[];
 }
 
-const PageHead: FunctionComponent<Props> = ({ titlePrefixes = [] }) => {
+const PageDocumentHead: FunctionComponent<Props> = ({ titlePrefixes = [] }) => {
   const { t } = useTranslation('common')
   const title = [...titlePrefixes, t('title')].join(' - ')
   return (
@@ -19,6 +19,6 @@ const PageHead: FunctionComponent<Props> = ({ titlePrefixes = [] }) => {
   )
 }
 
-PageHead.displayName = 'PageHead'
+PageDocumentHead.displayName = 'PageDocumentHead'
 
-export default PageHead
+export default PageDocumentHead

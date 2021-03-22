@@ -16,6 +16,7 @@
     "watch-tsc": "tsc --watch --noemit"
   },
   "dependencies": {
+    "html-react-parser": "^1.2.4",
     "http-status-codes": "^2.1.4",
     "lodash": "^4.17.21",
     "next": "10.0.7",
