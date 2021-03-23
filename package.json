@@ -5,12 +5,12 @@
   "scripts": {
     "build": "yarn generate-no-lang-fallback-pages && next build && next export && yarn remove-no-lang-fallback-pages",
     "dev": "concurrently -n next,tsm \"next dev\" \"yarn tsm-watch\"",
-    "generate-no-lang-fallback-pages": "node scripts/generateNoLangFallbackPages",
-    "remove-no-lang-fallback-pages": "node scripts/removeNoLangFallbackPages",
+    "generate-no-lang-fallback-pages": "ts-node -r tsconfig-paths/register --project tsconfig.script.json scripts/generateNoLangFallbackPages",
+    "remove-no-lang-fallback-pages": "ts-node scripts/removeNoLangFallbackPages",
     "lint": "eslint --ext .js,.jsx,.ts,.tsx .",
     "lint-fix": "yarn lint --fix",
     "start": "serve out",
-    "sync-i18n-json": "node scripts/syncI18nJSONs",
+    "sync-i18n-json": "ts-node scripts/syncI18nJSONs",
     "tsm": "tsm src --nameFormat none",
     "tsm-watch": "yarn tsm -w",
     "tsc-watch": "tsc --watch --noemit"
@@ -27,11 +27,14 @@
   },
   "devDependencies": {
     "@michchan/eslint-config": "^1.8.0",
+    "@types/lodash": "^4.14.168",
     "@types/node": "^14.14.31",
     "@types/react": "^17.0.2",
     "concurrently": "^6.0.0",
     "eslint": "^7.22.0",
     "serve": "^11.3.2",
+    "ts-node": "^9.1.1",
+    "tsconfig-paths": "^3.9.0",
     "typed-scss-modules": "^4.1.0",
     "typescript": "^4.2.2"
   }

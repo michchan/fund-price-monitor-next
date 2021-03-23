@@ -1,25 +1,38 @@
 /* eslint-disable no-console */
 const fs = require('fs')
 
-const PAGES_PATH = 'src/pages'
-const LOCALE_DIRNAME = '[locale]'
-const LOCALE_PAGES_PATH = `${PAGES_PATH}/${LOCALE_DIRNAME}`
+const CACHE_PATHNAME = '.script_cache/noLangFallbackWritePaths.json'
 
-const isDir = name => !/(\.js|\.ts|\.tsx)$/.test(name)
+function cleanEmptyFoldersRecursively (folder) {
+  const fs = require('fs')
+  const path = require('path')
 
-const remove = path => {
-  // E.g. ['index.tsx', 'about.tsx']
-  const pathnames = fs.readdirSync(path)
+  const isDir = fs.statSync(folder).isDirectory()
+  if (!isDir)
+    return
 
-  pathnames.forEach(pathname => {
-    const unlinkPath = `${path.replace(LOCALE_DIRNAME, '')}/${pathname}`.replace(/\/+/g, '/')
+  let files = fs.readdirSync(folder)
+  if (files.length > 0) {
+    files.forEach(file => {
+      const fullPath = path.join(folder, file)
+      cleanEmptyFoldersRecursively(fullPath)
+    })
 
-    if (isDir(pathname)) {
-      remove(`${path}/${pathname}`)
-      return
-    }
-    fs.unlinkSync(unlinkPath)
-  })
+    // Re-evaluate files; after deleting subfolder
+    // We may have parent folder empty now
+    files = fs.readdirSync(folder)
+  }
+
+  if (files.length === 0) {
+    console.log('Removing empty folder: ', folder)
+    fs.rmdirSync(folder)
+  }
 }
 
-remove(LOCALE_PAGES_PATH)
+const { writePaths } = require(`${process.cwd()}/${CACHE_PATHNAME}`)
+writePaths.forEach(path => {
+  console.log('Removing: ', path)
+  fs.rmSync(path, { recursive: true })
+})
+
+cleanEmptyFoldersRecursively('src')
