@@ -1,5 +1,6 @@
 /**
  * For script generating no language fallback static pages
+ * (Used by scripts/generateNoLangFallbackPages)
  */
 import { companyList } from 'constants/companies'
 

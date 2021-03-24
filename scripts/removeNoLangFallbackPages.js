@@ -1,12 +1,10 @@
 /* eslint-disable no-console */
 const fs = require('fs')
+const path = require('path')
 
 const CACHE_PATHNAME = '.script_cache/noLangFallbackWritePaths.json'
 
 function cleanEmptyFoldersRecursively (folder) {
-  const fs = require('fs')
-  const path = require('path')
-
   const isDir = fs.statSync(folder).isDirectory()
   if (!isDir)
     return
