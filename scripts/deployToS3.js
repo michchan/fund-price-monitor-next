@@ -3,6 +3,7 @@ const AWS = require('aws-sdk')
 const fs = require('fs')
 const path = require('path')
 const pipeAsync = require('simply-utils/dist/async/pipeAsync').default
+const mime = require('mime-types')
 
 const {
   AWS_DEFAULT_REGION,
@@ -58,13 +59,16 @@ pipeAsync(
     })
 
     const shouldRemoveHTMLExtension = isHTML(Key) && !HTML_EXT_RETAIN_LIST.includes(Key)
+    const ContentType = mime.lookup(Key) || undefined
+
     // Call S3 to retrieve upload file to specified bucket
     s3.upload({
       Bucket: AWS_S3_BUCKET_NAME,
       // Remove .html extension
       Key: shouldRemoveHTMLExtension ? Key.replace(HTML_REGEXP, '') : Key,
       Body: fileStream,
-      ...isHTML(Key) ? { ContentType: 'text/html' } : {},
+      // ! Prevent S3 misinterprets it as 'application/octet-stream'
+      ContentType,
     }, (err, data) => {
       if (err) {
         console.error(`[X] (${partNum}) S3 upload error: `, err.message)
@@ -72,7 +76,7 @@ pipeAsync(
         return
       }
       // Done upload process
-      console.log(`[-] (${partNum}) Upload Success: `, data.Location)
+      console.log(`[-] (${partNum}) Upload Success (${ContentType}): `, data.Location)
       resolve()
     })
   })),
