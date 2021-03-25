@@ -46,6 +46,31 @@ const fileKeys = readDirRecursive('')
 console.log(`[-] (${fileKeys.length}) Files to upload: `, JSON.stringify(fileKeys, null, 2))
 
 pipeAsync(
+  // Remove generated files on S3
+  async () => {
+    const data = await s3.listObjectsV2({
+      Bucket: AWS_S3_BUCKET_NAME,
+      Prefix: '_next/',
+    })
+      .promise()
+      .catch(err => {
+        console.error('[X] List generated files error: ', err.message)
+        throw err
+      })
+
+    if (data.KeyCount === 0 || data.Contents.length === 0) return
+
+    await s3.deleteObjects({
+      Bucket: AWS_S3_BUCKET_NAME,
+      Delete: { Objects: data.Contents.map(({ Key }) => ({ Key })) },
+    })
+      .promise()
+      .catch(err => {
+        console.error('[X] Delete generated files error: ', err.message)
+        throw err
+      })
+    console.log('[-] Deleted previously generated files.')
+  },
   // Create filestream to read and upload each file
   ...fileKeys.map((Key, i, arr) => () => new Promise((resolve, reject) => {
     const filePath = path.join(ROOT_DIR, Key)
