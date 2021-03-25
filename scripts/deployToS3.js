@@ -44,8 +44,8 @@ const fileKeys = readDirRecursive('')
 // Log files to upload
 console.log(`[-] (${fileKeys.length}) Files to upload: `, JSON.stringify(fileKeys, null, 2))
 
-// Create filestream to read and upload each file
 pipeAsync(
+  // Create filestream to read and upload each file
   ...fileKeys.map((Key, i, arr) => () => new Promise((resolve, reject) => {
     const filePath = path.join(ROOT_DIR, Key)
     const partNum = `${i + 1}/${arr.length}`
@@ -64,7 +64,7 @@ pipeAsync(
       // Remove .html extension
       Key: shouldRemoveHTMLExtension ? Key.replace(HTML_REGEXP, '') : Key,
       Body: fileStream,
-      ...shouldRemoveHTMLExtension ? { ContentType: 'text/html' } : {},
+      ...isHTML(Key) ? { ContentType: 'text/html' } : {},
     }, (err, data) => {
       if (err) {
         console.error(`[X] (${partNum}) S3 upload error: `, err.message)
