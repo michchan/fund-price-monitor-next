@@ -45,69 +45,75 @@ const fileKeys = readDirRecursive('')
 // Log files to upload
 console.log(`[-] (${fileKeys.length}) Files to upload: `, JSON.stringify(fileKeys, null, 2))
 
+const removePrevGeneratedFiles = async () => {
+  const data = await s3.listObjectsV2({
+    Bucket: AWS_S3_BUCKET_NAME,
+    Prefix: '_next/',
+  })
+    .promise()
+    .catch(err => {
+      console.error('[X] List generated files error: ', err.message)
+      throw err
+    })
+
+  if (data.KeyCount === 0 || data.Contents.length === 0) return
+
+  await s3.deleteObjects({
+    Bucket: AWS_S3_BUCKET_NAME,
+    Delete: { Objects: data.Contents.map(({ Key }) => ({ Key })) },
+  })
+    .promise()
+    .catch(err => {
+      console.error('[X] Delete generated files error: ', err.message)
+      throw err
+    })
+  console.log('[-] Deleted previously generated files.')
+}
+
+const uploadHandlers = fileKeys.map((Key, i, arr) => () => new Promise((resolve, reject) => {
+  const filePath = path.join(ROOT_DIR, Key)
+  const partNum = `${i + 1}/${arr.length}`
+  const fileStream = fs.createReadStream(filePath)
+
+  // Catch error
+  fileStream.on('error', err => {
+    console.error(`[X] (${partNum}) File stream error: `, err.message)
+    reject(err)
+  })
+
+  const shouldRemoveHTMLExtension = isHTML(Key) && !HTML_EXT_RETAIN_LIST.includes(Key)
+  const ContentType = mime.lookup(Key) || undefined
+
+  // Call S3 to retrieve upload file to specified bucket
+  s3.upload({
+    Bucket: AWS_S3_BUCKET_NAME,
+    // Remove .html extension
+    Key: shouldRemoveHTMLExtension ? Key.replace(HTML_REGEXP, '') : Key,
+    Body: fileStream,
+    // ! Prevent S3 misinterprets it as 'application/octet-stream'
+    ContentType,
+  }, (err, data) => {
+    if (err) {
+      console.error(`[X] (${partNum}) S3 upload error: `, err.message)
+      reject(err)
+      return
+    }
+    // Done upload process
+    console.log(`[-] (${partNum}) Upload Success (${ContentType}): `, data.Location)
+    resolve()
+  })
+}))
+
+const handleDone = () => {
+  // Log done!
+  console.log('Upload all files successfully!')
+}
+
 pipeAsync(
   // Remove generated files on S3
-  async () => {
-    const data = await s3.listObjectsV2({
-      Bucket: AWS_S3_BUCKET_NAME,
-      Prefix: '_next/',
-    })
-      .promise()
-      .catch(err => {
-        console.error('[X] List generated files error: ', err.message)
-        throw err
-      })
-
-    if (data.KeyCount === 0 || data.Contents.length === 0) return
-
-    await s3.deleteObjects({
-      Bucket: AWS_S3_BUCKET_NAME,
-      Delete: { Objects: data.Contents.map(({ Key }) => ({ Key })) },
-    })
-      .promise()
-      .catch(err => {
-        console.error('[X] Delete generated files error: ', err.message)
-        throw err
-      })
-    console.log('[-] Deleted previously generated files.')
-  },
+  removePrevGeneratedFiles,
   // Create filestream to read and upload each file
-  ...fileKeys.map((Key, i, arr) => () => new Promise((resolve, reject) => {
-    const filePath = path.join(ROOT_DIR, Key)
-    const partNum = `${i + 1}/${arr.length}`
-    const fileStream = fs.createReadStream(filePath)
-
-    // Catch error
-    fileStream.on('error', err => {
-      console.error(`[X] (${partNum}) File stream error: `, err.message)
-      reject(err)
-    })
-
-    const shouldRemoveHTMLExtension = isHTML(Key) && !HTML_EXT_RETAIN_LIST.includes(Key)
-    const ContentType = mime.lookup(Key) || undefined
-
-    // Call S3 to retrieve upload file to specified bucket
-    s3.upload({
-      Bucket: AWS_S3_BUCKET_NAME,
-      // Remove .html extension
-      Key: shouldRemoveHTMLExtension ? Key.replace(HTML_REGEXP, '') : Key,
-      Body: fileStream,
-      // ! Prevent S3 misinterprets it as 'application/octet-stream'
-      ContentType,
-    }, (err, data) => {
-      if (err) {
-        console.error(`[X] (${partNum}) S3 upload error: `, err.message)
-        reject(err)
-        return
-      }
-      // Done upload process
-      console.log(`[-] (${partNum}) Upload Success (${ContentType}): `, data.Location)
-      resolve()
-    })
-  })),
+  ...uploadHandlers,
   // Last executor
-  () => {
-    // Log done!
-    console.log('Upload all files successfully!')
-  }
+  handleDone
 )()
