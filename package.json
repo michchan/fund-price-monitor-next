@@ -19,7 +19,6 @@
   },
   "dependencies": {
     "html-react-parser": "^1.2.4",
-    "http-status-codes": "^2.1.4",
     "lodash": "^4.17.21",
     "next": "10.0.7",
     "next-i18next": "^8.1.2",
