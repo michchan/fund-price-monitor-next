@@ -4,6 +4,8 @@ const fs = require('fs')
 const path = require('path')
 const pipeAsync = require('simply-utils/dist/async/pipeAsync').default
 const mime = require('mime-types')
+const zlib = require('zlib')
+const Stream = require('stream')
 
 const {
   AWS_DEFAULT_REGION,
@@ -73,34 +75,42 @@ const removePrevGeneratedFiles = async () => {
 const uploadHandlers = fileKeys.map((Key, i, arr) => () => new Promise((resolve, reject) => {
   const filePath = path.join(ROOT_DIR, Key)
   const partNum = `${i + 1}/${arr.length}`
-  const fileStream = fs.createReadStream(filePath)
 
-  // Catch error
-  fileStream.on('error', err => {
+  const createUploadStream = () => {
+    const shouldRemoveHTMLExtension = isHTML(Key) && !HTML_EXT_RETAIN_LIST.includes(Key)
+    const ContentType = mime.lookup(Key) || undefined
+    // Create a passthrough stream
+    const writeStream = new Stream.PassThrough()
+    // Call S3 to retrieve upload file to specified bucket
+    s3.upload({
+      Bucket: AWS_S3_BUCKET_NAME,
+      // Remove .html extension
+      Key: shouldRemoveHTMLExtension ? Key.replace(HTML_REGEXP, '') : Key,
+      Body: writeStream,
+      // ! Prevent S3 misinterprets it as 'application/octet-stream'
+      ContentType,
+      ContentEncoding: 'gzip',
+    }, (err, data) => {
+      if (err) {
+        console.error(`[X] (${partNum}) S3 upload error: `, err.message)
+        reject(err)
+        return
+      }
+      // Done upload process
+      console.log(`[-] (${partNum}) Upload Success (${ContentType}): `, data.Location)
+      resolve()
+    })
+    return writeStream
+  }
+
+  // Create stream pipeline
+  const pipeline = fs.createReadStream(filePath)
+    .pipe(zlib.createGzip())
+    .pipe(createUploadStream())
+
+  pipeline.on('error', err => {
     console.error(`[X] (${partNum}) File stream error: `, err.message)
     reject(err)
-  })
-
-  const shouldRemoveHTMLExtension = isHTML(Key) && !HTML_EXT_RETAIN_LIST.includes(Key)
-  const ContentType = mime.lookup(Key) || undefined
-
-  // Call S3 to retrieve upload file to specified bucket
-  s3.upload({
-    Bucket: AWS_S3_BUCKET_NAME,
-    // Remove .html extension
-    Key: shouldRemoveHTMLExtension ? Key.replace(HTML_REGEXP, '') : Key,
-    Body: fileStream,
-    // ! Prevent S3 misinterprets it as 'application/octet-stream'
-    ContentType,
-  }, (err, data) => {
-    if (err) {
-      console.error(`[X] (${partNum}) S3 upload error: `, err.message)
-      reject(err)
-      return
-    }
-    // Done upload process
-    console.log(`[-] (${partNum}) Upload Success (${ContentType}): `, data.Location)
-    resolve()
   })
 }))
 
