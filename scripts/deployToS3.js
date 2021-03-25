@@ -64,7 +64,7 @@ pipeAsync(
       // Remove .html extension
       Key: shouldRemoveHTMLExtension ? Key.replace(HTML_REGEXP, '') : Key,
       Body: fileStream,
-      ...isHTML(Key) ? { ContentType: 'text/html' } : {},
+      ...shouldRemoveHTMLExtension ? { ContentType: 'text/html' } : {},
     }, (err, data) => {
       if (err) {
         console.error(`[X] (${partNum}) S3 upload error: `, err.message)
