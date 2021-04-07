@@ -15,3 +15,6 @@ export const getLocalesPaths = (): LocalePaths => LOCALES
 
 // @TODO: Use locale on localStorage / browser preference
 export const getFallbackLocale = (): string => DEFAULT_LOCALE
+
+export const isValidLocale = (maybeLocale: string): boolean => LOCALES
+  .some(locale => new RegExp(`^${locale}$`, 'i').test(maybeLocale))
