@@ -56,7 +56,10 @@ const generate = (path: string) => {
       const pascalCaseName = pascalCase(filename.split('.').shift() || '')
       return {
         filename,
-        componentName: `${pascalCaseName}${TEMPLATE_COMPONENT_NAME}`,
+        componentName: /^\d/.test(pascalCaseName)
+          // Handle component name cannot be started with number
+          ? `${TEMPLATE_COMPONENT_NAME}${pascalCaseName}`
+          : `${pascalCaseName}${TEMPLATE_COMPONENT_NAME}`,
       }
     })
 

@@ -19,7 +19,7 @@ const Custom404: FunctionComponent = () => {
       ? pathname
       // Need to redirect to the 404 page with "locale" as
       // Server side locale is not support in SSG.
-      : '404'
+      : 'not-found'
 
     router.replace(`${locale || getFallbackLocale()}/${redirectPath}`)
   }

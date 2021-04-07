@@ -3,6 +3,7 @@ const fs = require('fs')
 const path = require('path')
 
 const CACHE_PATHNAME = '.script_cache/noLangFallbackWritePaths.json'
+const BUILD_TOUCH_BLACKLIST = ['_app', '_document', '_error', '404']
 
 function cleanEmptyFoldersRecursively (folder) {
   const isDir = fs.statSync(folder).isDirectory()
@@ -28,9 +29,11 @@ function cleanEmptyFoldersRecursively (folder) {
 }
 
 const { writePaths } = require(`${process.cwd()}/${CACHE_PATHNAME}`)
-writePaths.forEach(path => {
-  console.log('Removing: ', path)
-  fs.rmSync(path, { recursive: true })
-})
+writePaths
+  .filter(path => !BUILD_TOUCH_BLACKLIST.some(c => path.includes(c)))
+  .forEach(path => {
+    console.log('Removing: ', path)
+    fs.rmSync(path, { recursive: true })
+  })
 
 cleanEmptyFoldersRecursively('src')
