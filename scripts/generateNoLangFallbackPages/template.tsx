@@ -1,6 +1,7 @@
 import { FunctionComponent } from 'react'
 import { useRouter } from 'next/router'
 import { getFallbackLocale } from 'utils/i18n'
+import LoadingPage from 'components/layouts/LoadingPage'
 
 const NoLangFallbackPage: FunctionComponent = () => {
   const router = useRouter()
@@ -8,7 +9,7 @@ const NoLangFallbackPage: FunctionComponent = () => {
   if (typeof window !== 'undefined')
     router.replace(`${getFallbackLocale()}/${router.pathname}`.replace(/\/+/g, '/'))
 
-  return null
+  return <LoadingPage/>
 }
 
 NoLangFallbackPage.displayName = 'NoLangFallbackPage'

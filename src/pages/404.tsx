@@ -3,19 +3,27 @@ import { useRouter } from 'next/router'
 
 import { isWithBackslash, parseRawPath } from 'utils/router'
 import { getFallbackLocale } from 'utils/i18n'
+import LoadingPage from 'components/layouts/LoadingPage'
 
 const Custom404: FunctionComponent = () => {
   const router = useRouter()
 
-  // Try to redirect when pathname is with backslash
-  // Like "/en/home/" -> "/en/home"
-  // As our static CDN host might not be supporting that.
-  if (isWithBackslash(router.asPath)) {
+  // Make sure we're in the browser
+  if (typeof window !== 'undefined') {
     const { locale, pathname } = parseRawPath(router.asPath)
-    router.replace(`${locale || getFallbackLocale()}/${pathname}`)
-  }
 
-  return <h1>{'Page not found'}</h1>
+    const redirectPath = isWithBackslash(router.asPath)
+      // Try to redirect when pathname is with backslash
+      // Like "/en/home/" -> "/en/home"
+      // As our static CDN host might not be supporting that.
+      ? pathname
+      // Need to redirect to the 404 page with "locale" as
+      // Server side locale is not support in SSG.
+      : '404'
+
+    router.replace(`${locale || getFallbackLocale()}/${redirectPath}`)
+  }
+  return <LoadingPage/>
 }
 Custom404.displayName = 'Custom404'
 

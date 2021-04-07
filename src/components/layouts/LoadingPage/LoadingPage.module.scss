@@ -1,0 +1,45 @@
+// @TODO: Implement base styles path
+@import '../../../styles/colors.scss';
+
+// Reference: https://codepen.io/mattonit/pen/vLoddq
+@keyframes wave {
+  0%, 60%, 100% {
+		transform: initial;
+	}
+
+	30% {
+		transform: translateY(-15px);
+	}
+}
+
+$num_dots: 3;
+
+.container {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  // Dot
+  & span {
+    width: 1vw;
+    height: 1vw;
+    min-width: 14px;
+    min-height: 14px;
+    border-radius: 50%;
+    margin: 8px;
+    background-color: $color_subtitle;
+    animation: wave 1.2s linear infinite;
+    
+    @for $i from 0 to $num_dots {
+      &:nth-child(#{$i + 1}) {
+        animation-delay: -#{$i}s;
+      }
+    }
+  }
+}
+
+:export {
+  numDots: $num_dots;
+}

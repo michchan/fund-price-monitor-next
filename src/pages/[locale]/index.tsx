@@ -2,18 +2,22 @@ import { FunctionComponent } from 'react'
 import { useRouter } from 'next/router'
 import { GetStaticPaths, GetStaticProps } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+import { useTranslation } from 'next-i18next'
 
 import { getFallbackLocale, getLocalesPaths } from 'utils/i18n'
 import { companyList } from 'constants/companies'
+import LoadingPage from 'components/layouts/LoadingPage'
 
 const Home: FunctionComponent = () => {
   const router = useRouter()
+  const { i18n } = useTranslation()
+
   // Make sure we're in the browser
   if (typeof window !== 'undefined')
     // Fallback to the default company
-    router.replace(`${getFallbackLocale()}/${companyList[0]}`)
+    router.replace(`${i18n.language || getFallbackLocale()}/${companyList[0]}`)
 
-  return null
+  return <LoadingPage/>
 }
 
 Home.displayName = 'Home'
