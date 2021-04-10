@@ -7,13 +7,14 @@ import { useTranslation } from 'next-i18next'
 import { getFallbackLocale, getLocalesPaths } from 'utils/i18n'
 import { companyList } from 'constants/companies'
 import LoadingPage from 'components/pages/LoadingPage'
+import { isServer } from 'utils/environment'
 
 const Home: FunctionComponent = () => {
   const router = useRouter()
   const { i18n } = useTranslation()
 
   // Make sure we're in the browser
-  if (typeof window !== 'undefined')
+  if (isServer())
     // Fallback to the default company
     router.replace(`${i18n.language || getFallbackLocale()}/${companyList[0]}`)
 
