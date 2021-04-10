@@ -29,8 +29,8 @@
     "simply-utils": "^0.55.0"
   },
   "devDependencies": {
-    "@michchan/eslint-config": "^1.8.0",
-    "@michchan/fund-price-monitor-lib": "0.2.0",
+    "@michchan/eslint-config": "1.8.0",
+    "@michchan/fund-price-monitor-lib": "0.2.1",
     "@types/lodash": "^4.14.168",
     "@types/node": "^14.14.31",
     "@types/qs": "^6.9.6",
