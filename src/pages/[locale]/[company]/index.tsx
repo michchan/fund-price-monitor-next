@@ -1,8 +1,11 @@
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { GetStaticPaths, GetStaticProps } from 'next'
+import { CompanyType } from '@michchan/fund-price-monitor-lib'
+
 import { getFallbackLocale, getLocalesPaths } from 'utils/i18n'
-import { Company, companyList } from 'constants/companies'
+import { companyList } from 'constants/companies'
 import { Props } from 'components/layouts/CompanyHome'
+import { listCompanyRecords } from 'services/fundprices'
 
 // @REASON: required by NextJS
 // eslint-disable-next-line require-await
@@ -16,10 +19,15 @@ export const getStaticPaths: GetStaticPaths = async () => ({
 
 export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
   const locale = (params?.locale || getFallbackLocale()) as string
+  const company = params?.company as CompanyType
+
+  const recordsResponse = await listCompanyRecords<'latest'>(company, { latest: true })
+
   return {
     props: {
       ...await serverSideTranslations(locale, ['common']),
-      company: params?.company as Company,
+      company,
+      records: recordsResponse.result ? recordsResponse.data : [],
     },
   }
 }

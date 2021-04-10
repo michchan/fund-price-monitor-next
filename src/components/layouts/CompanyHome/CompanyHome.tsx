@@ -1,17 +1,19 @@
 import { FunctionComponent } from 'react'
 import { useTranslation } from 'next-i18next'
+import { CompanyType, FundPriceRecord } from '@michchan/fund-price-monitor-lib'
 
 import styles from './CompanyHome.module.scss'
 import PageDocumentHead from 'components/molecules/PageDocumentHead'
 import PageFooter from 'components/molecules/PageFooter'
-import { Company } from 'constants/companies'
 
 export interface Props {
-  company: Company;
+  company: CompanyType;
+  records: FundPriceRecord<'mpf', 'latest'>[];
 }
 
 const CompanyHome: FunctionComponent<Props> = ({ company }) => {
   const { t } = useTranslation('common')
+
   return (
     <div className={styles.container}>
       <PageDocumentHead/>
