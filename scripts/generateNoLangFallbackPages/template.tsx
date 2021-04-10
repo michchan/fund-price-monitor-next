@@ -1,7 +1,7 @@
 import { FunctionComponent } from 'react'
 import { useRouter } from 'next/router'
 import { getFallbackLocale } from 'utils/i18n'
-import LoadingPage from 'components/layouts/LoadingPage'
+import LoadingPage from 'components/pages/LoadingPage'
 
 const NoLangFallbackPage: FunctionComponent = () => {
   const router = useRouter()

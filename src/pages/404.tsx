@@ -3,7 +3,7 @@ import { useRouter } from 'next/router'
 
 import { isWithBackslash, parseRawPath } from 'utils/router'
 import { getFallbackLocale } from 'utils/i18n'
-import LoadingPage from 'components/layouts/LoadingPage'
+import LoadingPage from 'components/pages/LoadingPage'
 
 const Custom404: FunctionComponent = () => {
   const router = useRouter()

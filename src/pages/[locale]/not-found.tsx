@@ -18,4 +18,4 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   }
 }
 
-export { default } from 'components/layouts/NotFoundPage'
+export { default } from 'components/pages/NotFoundPage'

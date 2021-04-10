@@ -4,7 +4,7 @@ import { CompanyType } from '@michchan/fund-price-monitor-lib'
 
 import { getFallbackLocale, getLocalesPaths } from 'utils/i18n'
 import { companyList } from 'constants/companies'
-import { Props } from 'components/layouts/CompanyHome'
+import { Props } from 'components/pages/CompanyHome'
 import { listCompanyRecords } from 'services/fundprices'
 
 // @REASON: required by NextJS
@@ -32,4 +32,4 @@ export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
   }
 }
 
-export { default } from 'components/layouts/CompanyHome'
+export { default } from 'components/pages/CompanyHome'
