@@ -19,6 +19,8 @@
   },
   "dependencies": {
     "html-react-parser": "^1.2.4",
+    "http-proxy-agent": "^4.0.1",
+    "https-proxy-agent": "^5.0.0",
     "lodash": "^4.17.21",
     "next": "10.0.7",
     "next-i18next": "^8.1.2",
@@ -33,6 +35,7 @@
     "@michchan/fund-price-monitor-lib": "0.2.1",
     "@types/lodash": "^4.14.168",
     "@types/node": "^14.14.31",
+    "@types/node-fetch": "^2.5.10",
     "@types/qs": "^6.9.6",
     "@types/react": "^17.0.2",
     "aws-sdk": "^2.884.0",
