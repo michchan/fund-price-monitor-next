@@ -1,4 +1,4 @@
-import { FunctionComponent, useCallback, FocusEvent, ChangeEvent } from 'react'
+import { FunctionComponent, useCallback, FocusEvent, ChangeEvent, ReactNode } from 'react'
 import { useTranslation } from 'next-i18next'
 import { CompanyType, FundPriceRecordWithDetails, Languages } from '@michchan/fund-price-monitor-lib'
 
@@ -7,15 +7,18 @@ import PageDocumentHead from 'components/molecules/PageDocumentHead'
 import PageFooter from 'components/molecules/PageFooter'
 import { companyList } from 'constants/companies'
 import { useRouter } from 'next/router'
+import Table from 'components/organisms/Table'
 
 export interface Props {
   company: CompanyType;
   records: FundPriceRecordWithDetails<'mpf', 'latest'>[];
 }
 
+// @REASON: This is a component
+// eslint-disable-next-line max-lines-per-function
 const CompanyHome: FunctionComponent<Props> = ({ company, records }) => {
   const router = useRouter()
-  const { t, i18n } = useTranslation('common')
+  const { t: tCommon, i18n } = useTranslation('common')
 
   const handleCompanySelectChange = useCallback((
     e: FocusEvent<HTMLSelectElement> | ChangeEvent<HTMLSelectElement>
@@ -38,33 +41,40 @@ const CompanyHome: FunctionComponent<Props> = ({ company, records }) => {
     </select>
   )
 
+  const renderRecordsRows = useCallback((
+    rowClassName: string,
+    columnClassName: string,
+  ) => records.map(r => {
+    const renderColumn = (children: ReactNode) => (
+      <td className={columnClassName}>{children}</td>
+    )
+    return (
+      <tr
+        className={rowClassName}
+        key={`${company}-${r.code}`}>
+        {renderColumn(r.code)}
+        {renderColumn(r.name[i18n.language as Languages] || r.name.en)}
+        {renderColumn(r.price)}
+        {renderColumn(`${Number(r.dayPriceChangeRate)?.toFixed(2)}%`)}
+        {renderColumn(r.riskLevel)}
+        {renderColumn(r.updatedDate)}
+        {renderColumn(r.time)}
+      </tr>
+    )
+  }), [company, i18n.language, records])
+
   const renderRecordsTable = () => (
-    <table>
-      <thead>
-        <tr>
-          <th>{'Code'}</th>
-          <th>{'Name'}</th>
-          <th>{'Price'}</th>
-          <th>{'Day +/-'}</th>
-          <th>{'Risk Level'}</th>
-          <th>{'Updated Date'}</th>
-          <th>{'Recorded Time'}</th>
-        </tr>
-      </thead>
-      <tbody>
-        {records.map(r => (
-          <tr key={`${company}-${r.code}`}>
-            <td>{r.code}</td>
-            <td>{r.name[i18n.language as Languages] || r.name.en}</td>
-            <td>{r.price}</td>
-            <td>{`${Number(r.dayPriceChangeRate)?.toFixed(2)}%`}</td>
-            <td>{r.riskLevel}</td>
-            <td>{r.updatedDate}</td>
-            <td>{r.time}</td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
+    <Table
+      headers={[
+        'Code',
+        'Name',
+        'Price',
+        'Day +/-',
+        'Risk Level',
+        'Updated Date',
+        'Recorded Time',
+      ]}
+      renderRows={renderRecordsRows}/>
   )
 
   return (
@@ -72,8 +82,8 @@ const CompanyHome: FunctionComponent<Props> = ({ company, records }) => {
       <PageDocumentHead/>
       <main className={styles.main}>
         <section className={styles.titleSection}>
-          <h1 className={styles.titleSection_title}>{t('title')}</h1>
-          <p className={styles.titleSection_subtitle}>{t('subtitle')}</p>
+          <h1 className={styles.titleSection_title}>{tCommon('title')}</h1>
+          <p className={styles.titleSection_subtitle}>{tCommon('subtitle')}</p>
         </section>
         <section className={styles.filterSection}>
           {renderCompanySelect()}

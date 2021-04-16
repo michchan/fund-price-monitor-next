@@ -18,10 +18,13 @@
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
+  width: 100%;
+  max-width: $app_max_width;
+  padding-bottom: 60px;
 }
 
 .titleSection {
-  padding: $common_padding_verti $common_padding_horiz;
+  padding: $app_padding_verti $app_padding_horiz;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
@@ -47,9 +50,10 @@
 }
 
 .filterSection {
-  padding: $common_padding_verti $common_padding_horiz;
+  padding: $app_padding_verti $app_padding_horiz;
 }
 
 .tableSection {
-  padding: $common_padding_verti $common_padding_horiz;
+  width: 100%;
+  padding: $app_padding_verti 0px;
 }

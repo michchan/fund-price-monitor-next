@@ -1,0 +1,28 @@
+.container {
+  width: 100%;
+  color: #9E9A94;
+  padding: 12px 0px;
+}
+
+.row {
+  width: 100%;
+
+  &:nth-child(odd) {
+    background-color: #F6F1EC;
+  }
+  &:nth-child(even) {
+    background-color: #F9F6F3;
+  }
+}
+
+.column {
+  padding: 12px 6px;
+}
+
+.headerRow {
+  width: 100%;
+}
+
+.headerColumn {
+  padding: 20px 6px;
+}
