@@ -3797,10 +3797,10 @@ simple-swizzle@^0.2.2:
   dependencies:
     is-arrayish "^0.3.1"
 
-simply-utils@^0.55.0:
-  version "0.55.0"
-  resolved "https://registry.yarnpkg.com/simply-utils/-/simply-utils-0.55.0.tgz#a541538a3a557537ddf8d68107dc81fcbc0eefc3"
-  integrity sha512-OifbMxvaJrjd81I2ZTqzDUn6twv/DLOi0nj8wnBg/gRnt0E6cnCpjqjeyA3EKkb/pJirtJtV7c6POSN4XrsyLQ==
+simply-utils@0.56.0:
+  version "0.56.0"
+  resolved "https://registry.yarnpkg.com/simply-utils/-/simply-utils-0.56.0.tgz#97af5150df67fb53d2428b6b368b1ae046adfc24"
+  integrity sha512-h/BaddHKlq7VZDj4ZeDUO/qtOLRUiflhE3frqx7BnfpBptXRV0lfmFYCVYok7nN7VfU82HwyDJxffuK+3ViVIQ==
   dependencies:
     eastasianwidth "0.2.0"
     history "^5.0.0"
