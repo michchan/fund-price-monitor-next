@@ -1,11 +1,11 @@
 import { useTranslation } from 'next-i18next'
-import { FunctionComponent } from 'react'
+import { FC } from 'react'
 import parseHTML from 'html-react-parser'
 import styles from './PageFooter.module.scss'
 
 const builtYear = new Date().getFullYear()
 
-const PageFooter: FunctionComponent = () => {
+const PageFooter: FC = () => {
   const { t } = useTranslation('common')
   return (
     <footer className={styles.container}>

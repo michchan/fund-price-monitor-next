@@ -1,10 +1,10 @@
-import { FunctionComponent } from 'react'
+import { FC } from 'react'
 
 export interface Props {
   title?: string;
 }
 
-const SimpleComponent: FunctionComponent<Props> = ({ title }) => {
+const SimpleComponent: FC<Props> = ({ title }) => {
   const text = title
   return (
     <div>

@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react'
+import { FC } from 'react'
 import { useRouter } from 'next/router'
 
 import { isWithBackslash, parseRawPath } from 'utils/router'
@@ -6,7 +6,7 @@ import { getFallbackLocale } from 'utils/i18n'
 import LoadingPage from 'components/pages/LoadingPage'
 import { isClientSide } from 'utils/environment'
 
-const Custom404: FunctionComponent = () => {
+const Custom404: FC = () => {
   const router = useRouter()
 
   // Make sure we're in the browser

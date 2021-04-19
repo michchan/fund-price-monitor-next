@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react'
+import { FC } from 'react'
 import Link from 'next/link'
 import { useTranslation } from 'next-i18next'
 
@@ -9,7 +9,7 @@ import { getFallbackLocale } from 'utils/i18n'
 
 export interface Props {}
 
-const NotFoundPage: FunctionComponent<Props> = () => {
+const NotFoundPage: FC<Props> = () => {
   const { t, i18n } = useTranslation('404')
   const homePath = `/${i18n.language || getFallbackLocale()}`
 

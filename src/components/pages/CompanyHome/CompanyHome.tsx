@@ -1,4 +1,4 @@
-import { FunctionComponent, useCallback, FocusEvent, ChangeEvent, ReactNode } from 'react'
+import { FC, useCallback, FocusEvent, ChangeEvent, ReactNode } from 'react'
 import { useTranslation } from 'next-i18next'
 import { CompanyType, FundPriceRecordWithDetails, Languages } from '@michchan/fund-price-monitor-lib'
 
@@ -16,7 +16,7 @@ export interface Props {
 
 // @REASON: This is a component
 // eslint-disable-next-line max-lines-per-function
-const CompanyHome: FunctionComponent<Props> = ({ company, records }) => {
+const CompanyHome: FC<Props> = ({ company, records }) => {
   const router = useRouter()
   const { t: tCommon, i18n } = useTranslation('common')
 

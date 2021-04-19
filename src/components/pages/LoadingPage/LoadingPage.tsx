@@ -1,9 +1,9 @@
-import { FunctionComponent } from 'react'
+import { FC } from 'react'
 import styles from './LoadingPage.module.scss'
 
 export interface Props {}
 
-const LoadingPage: FunctionComponent<Props> = () => (
+const LoadingPage: FC<Props> = () => (
   <div className={styles.container}>
     {Array(Number(styles.numDots))
       .fill(null)

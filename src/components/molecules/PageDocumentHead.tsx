@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react'
+import { FC } from 'react'
 import Head from 'next/head'
 import { useTranslation } from 'next-i18next'
 
@@ -6,7 +6,7 @@ export interface Props {
   titlePrefixes?: string[];
 }
 
-const PageDocumentHead: FunctionComponent<Props> = ({ titlePrefixes = [] }) => {
+const PageDocumentHead: FC<Props> = ({ titlePrefixes = [] }) => {
   const { t } = useTranslation('common')
   const title = [...titlePrefixes, t('title')].join(' - ')
   return (

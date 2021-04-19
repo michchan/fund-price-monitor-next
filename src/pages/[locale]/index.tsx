@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react'
+import { FC } from 'react'
 import { useRouter } from 'next/router'
 import { GetStaticPaths, GetStaticProps } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
@@ -9,7 +9,7 @@ import { companyList } from 'constants/companies'
 import LoadingPage from 'components/pages/LoadingPage'
 import { isClientSide } from 'utils/environment'
 
-const Home: FunctionComponent = () => {
+const Home: FC = () => {
   const router = useRouter()
   const { i18n } = useTranslation()
 
