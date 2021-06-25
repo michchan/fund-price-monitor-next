@@ -1,5 +1,11 @@
+import { Languages } from '@michchan/fund-price-monitor-lib'
 import { GetStaticPathsResult } from 'next'
 import { i18n } from '../../next-i18next.config'
+
+const LOCALE_API_LOCALE_MAP: { [k: string]: Languages } = {
+  en: 'en',
+  zh: 'zh_HK',
+}
 
 export const LOCALES = i18n.locales
 
@@ -18,3 +24,5 @@ export const getFallbackLocale = (): string => DEFAULT_LOCALE
 
 export const isValidLocale = (maybeLocale: string): boolean => LOCALES
   .some(locale => new RegExp(`^${locale}$`, 'i').test(maybeLocale))
+
+export const mapLocaleToApiLocale = (locale: string): Languages => LOCALE_API_LOCALE_MAP[locale]

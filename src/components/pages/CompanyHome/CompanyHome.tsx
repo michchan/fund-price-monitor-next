@@ -1,6 +1,6 @@
 import { FC, useCallback, FocusEvent, ChangeEvent, useState, ReactNode, HTMLProps } from 'react'
 import { useTranslation } from 'next-i18next'
-import { CompanyType, FundPriceRecordWithDetails, Languages, RiskLevel } from '@michchan/fund-price-monitor-lib'
+import { CompanyType, FundPriceRecordWithDetails, RiskLevel } from '@michchan/fund-price-monitor-lib'
 import getArraySortNumber from 'simply-utils/dist/array/getArraySortNumber'
 import getNumberFromPercentageString from 'simply-utils/dist/number/getNumberFromPercentageString'
 import sortTableRowsByEachCell, { TableCellSortState } from 'simply-utils/dist/algo/sortTableRowsByEachCell'
@@ -13,6 +13,7 @@ import PageFooter from 'components/molecules/PageFooter'
 import { companyList } from 'constants/companies'
 import { useRouter } from 'next/router'
 import Table from 'components/organisms/Table'
+import { LOCALES, mapLocaleToApiLocale } from 'utils/i18n'
 
 type Record = FundPriceRecordWithDetails<'mpf', 'latest'>
 
@@ -34,6 +35,27 @@ export interface Props {
 const CompanyHome: FC<Props> = ({ company, records }) => {
   const router = useRouter()
   const { t: tCommon, i18n } = useTranslation('common')
+
+  const handleLanguageSelectChange = useCallback((
+    e: FocusEvent<HTMLSelectElement> | ChangeEvent<HTMLSelectElement>
+  ) => {
+    const { value } = e.target
+    router.push(`/${value}/${company}`, undefined, { locale: value })
+  }, [company, router])
+
+  const renderLanguageSelect = () => (
+    <select
+      onBlur={handleLanguageSelectChange}
+      onChange={handleLanguageSelectChange}
+      value={i18n.language}>
+      {LOCALES.map(locale => (
+        <option
+          key={locale}
+          label={locale}
+          value={locale}/>
+      ))}
+    </select>
+  )
 
   const handleCompanySelectChange = useCallback((
     e: FocusEvent<HTMLSelectElement> | ChangeEvent<HTMLSelectElement>
@@ -129,7 +151,7 @@ const CompanyHome: FC<Props> = ({ company, records }) => {
 
   const getRecordValueByCellIndex = useCallback((r: Record, cellIndex: number): string | number => {
     if (cellIndex === 0) return r.code
-    if (cellIndex === 1) return r.name[i18n.language as Languages] || r.name.en
+    if (cellIndex === 1) return r.name[mapLocaleToApiLocale(i18n.language)] || r.name.en
     if (cellIndex === 2) return r.price
     if (cellIndex === 3) return `${Number(r.dayPriceChangeRate)?.toFixed(2)}%`
     if (cellIndex === 4) return r.riskLevel
@@ -183,6 +205,7 @@ const CompanyHome: FC<Props> = ({ company, records }) => {
           <p className={styles.titleSection_subtitle}>{tCommon('subtitle')}</p>
         </section>
         <section className={styles.filterSection}>
+          {renderLanguageSelect()}
           {renderCompanySelect()}
         </section>
         <section className={styles.tableSection}>
