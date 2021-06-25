@@ -1,30 +1,21 @@
 import { FC, ReactNode } from 'react'
+import { TableCellSortState } from 'simply-utils/dist/algo/sortTableRowsByEachCell'
 
 import styles from './Table.module.scss'
 
 export interface Props {
-  headers: string[];
-  renderRows: (
-    rowClassName: string,
-    columnClassName: string,
-  ) => ReactNode;
+  renderHeaderRow: () => ReactNode;
+  renderRows: () => ReactNode;
+  sortState?: TableCellSortState[];
 }
 
-const Table: FC<Props> = ({ headers, renderRows }) => (
+const Table: FC<Props> = ({ renderHeaderRow, renderRows }) => (
   <table className={styles.container}>
-    <thead>
-      <tr className={styles.headerRow}>
-        {headers.map((header, i) => (
-          <th
-            className={styles.headerColumn}
-            key={i}>
-            {header}
-          </th>
-        ))}
-      </tr>
+    <thead className={styles.tableHead}>
+      {renderHeaderRow()}
     </thead>
-    <tbody>
-      {renderRows(styles.row, styles.column)}
+    <tbody className={styles.tableBody}>
+      {renderRows()}
     </tbody>
   </table>
 )

@@ -1,7 +1,12 @@
-import { FC, useCallback, FocusEvent, ChangeEvent, ReactNode } from 'react'
+import { FC, useCallback, FocusEvent, ChangeEvent, useState, ReactNode, HTMLProps } from 'react'
 import { useTranslation } from 'next-i18next'
-import { CompanyType, FundPriceRecordWithDetails, Languages } from '@michchan/fund-price-monitor-lib'
+import { CompanyType, FundPriceRecordWithDetails, Languages, RiskLevel } from '@michchan/fund-price-monitor-lib'
+import getArraySortNumber from 'simply-utils/dist/array/getArraySortNumber'
+import getNumberFromPercentageString from 'simply-utils/dist/number/getNumberFromPercentageString'
+import sortTableRowsByEachCell, { TableCellSortState } from 'simply-utils/dist/algo/sortTableRowsByEachCell'
+import dayjs from 'dayjs'
 
+import textAlign from 'styles/textAlign.module.scss'
 import styles from './CompanyHome.module.scss'
 import PageDocumentHead from 'components/molecules/PageDocumentHead'
 import PageFooter from 'components/molecules/PageFooter'
@@ -9,9 +14,19 @@ import { companyList } from 'constants/companies'
 import { useRouter } from 'next/router'
 import Table from 'components/organisms/Table'
 
+type Record = FundPriceRecordWithDetails<'mpf', 'latest'>
+
+const RISK_PRIORITY: { [key in Record['riskLevel']]: number } = {
+  veryLow: 1,
+  low: 2,
+  neutral: 3,
+  high: 4,
+  veryHigh: 5,
+}
+
 export interface Props {
   company: CompanyType;
-  records: FundPriceRecordWithDetails<'mpf', 'latest'>[];
+  records: Record[];
 }
 
 // @REASON: This is a component
@@ -41,40 +56,122 @@ const CompanyHome: FC<Props> = ({ company, records }) => {
     </select>
   )
 
-  const renderRecordsRows = useCallback((
-    rowClassName: string,
-    columnClassName: string,
-  ) => records.map(r => {
-    const renderColumn = (children: ReactNode) => (
-      <td className={columnClassName}>{children}</td>
-    )
+  const [sortState, setSortState] = useState<TableCellSortState[]>([])
+
+  const handleSort = useCallback((cellIndex: number, isDefaultToDescending: boolean = false) => {
+    setSortState(prev => {
+      const prevCellState = prev.find(s => s.index === cellIndex)
+      // Case: previously not sorted --> append this cell
+      if (!prevCellState)
+        return [...prev, { index: cellIndex, isDescending: isDefaultToDescending }]
+      // Case: previously was not default ordering --> remove this cell
+      if (prevCellState.isDescending !== isDefaultToDescending)
+        return prev.filter(s => s.index !== cellIndex)
+      // Default case: previously was sorted --> change sort ordering
+      return prev.map(s => {
+        if (s.index === cellIndex) {
+          return {
+            index: cellIndex,
+            isDescending: !s.isDescending,
+          }
+        }
+        return s
+      })
+    })
+  }, [])
+
+  const renderRecordsHeaderRow = useCallback(() => {
+    interface CellProps extends HTMLProps<HTMLTableHeaderCellElement> {
+      isDefaultToDescending?: boolean;
+    }
+
+    const renderCell = (
+      index: number,
+      children: ReactNode,
+      cellProps?: CellProps,
+    ) => {
+      const { isDefaultToDescending, ...props } = cellProps ?? {}
+      const foundSortStateIndex = sortState.findIndex(s => s.index === index)
+      const foundSortState = sortState[foundSortStateIndex]
+      return (
+        <th
+          {...props}
+          key={index}
+          onClick={() => handleSort(index, isDefaultToDescending)}>
+          {children}
+          {foundSortState && (
+            <>
+              &nbsp;
+              {foundSortState.isDescending ? '↓' : '↑'}
+              <sub>{`${foundSortStateIndex + 1}`}</sub>
+            </>
+          )}
+        </th>
+      )
+    }
+
+    const headData: ([ReactNode] | [ReactNode, CellProps])[] = [
+      ['Code'],
+      ['Name'],
+      ['Price', { isDefaultToDescending: true }],
+      ['Day +/-', { isDefaultToDescending: true }],
+      ['Risk Level', { className: textAlign.center }],
+      ['Updated Date', { className: textAlign.right, isDefaultToDescending: true }],
+      ['Recorded Time', { className: textAlign.right, isDefaultToDescending: true }],
+    ]
+
     return (
-      <tr
-        className={rowClassName}
-        key={`${company}-${r.code}`}>
-        {renderColumn(r.code)}
-        {renderColumn(r.name[i18n.language as Languages] || r.name.en)}
-        {renderColumn(r.price)}
-        {renderColumn(`${Number(r.dayPriceChangeRate)?.toFixed(2)}%`)}
-        {renderColumn(r.riskLevel)}
-        {renderColumn(r.updatedDate)}
-        {renderColumn(r.time)}
+      <tr>
+        {headData.map(([children, props], i) => renderCell(i, children, props))}
       </tr>
     )
-  }), [company, i18n.language, records])
+  }, [handleSort, sortState])
+
+  const getRecordValueByCellIndex = useCallback((r: Record, cellIndex: number): string | number => {
+    if (cellIndex === 0) return r.code
+    if (cellIndex === 1) return r.name[i18n.language as Languages] || r.name.en
+    if (cellIndex === 2) return r.price
+    if (cellIndex === 3) return `${Number(r.dayPriceChangeRate)?.toFixed(2)}%`
+    if (cellIndex === 4) return r.riskLevel
+    if (cellIndex === 5) return r.updatedDate
+    if (cellIndex === 6) return dayjs(r.time).format('YYYY-MM-DD HH:mm:ss')
+    return ''
+  }, [i18n.language])
+
+  const renderRecordsRows = useCallback(() => {
+    const sortedRecords = sortTableRowsByEachCell(records, sortState, (a, b, cellIndex) => {
+      const valueA = getRecordValueByCellIndex(a, cellIndex)
+      const valueB = getRecordValueByCellIndex(b, cellIndex)
+
+      if (cellIndex === 3) {
+        const getPercent = (val: string | number) => Math.abs(getNumberFromPercentageString(val))
+        return getArraySortNumber(getPercent(valueA), getPercent(valueB))
+      }
+      if (cellIndex === 4) {
+        return getArraySortNumber(
+          RISK_PRIORITY[valueA as RiskLevel],
+          RISK_PRIORITY[valueB as RiskLevel]
+        )
+      }
+      return getArraySortNumber(valueA, valueB)
+    })
+
+    return sortedRecords.map(r => (
+      <tr key={`${company}-${r.code}`}>
+        {Array(7)
+          .fill({})
+          .map((v, i) => (
+            <td key={i}>{getRecordValueByCellIndex(r, i)}</td>
+          ))}
+      </tr>
+    ))
+  }, [company, getRecordValueByCellIndex, records, sortState])
 
   const renderRecordsTable = () => (
     <Table
-      headers={[
-        'Code',
-        'Name',
-        'Price',
-        'Day +/-',
-        'Risk Level',
-        'Updated Date',
-        'Recorded Time',
-      ]}
-      renderRows={renderRecordsRows}/>
+      renderHeaderRow={renderRecordsHeaderRow}
+      renderRows={renderRecordsRows}
+      sortState={sortState}/>
   )
 
   return (
