@@ -6,6 +6,7 @@ import getNumberFromPercentageString from 'simply-utils/dist/number/getNumberFro
 import sortTableRowsByEachCell, { TableCellSortState } from 'simply-utils/dist/algo/sortTableRowsByEachCell'
 import getTableRowsSortStateReducer from 'simply-utils/dist/algo/getTableRowsSortStateReducer'
 import dayjs from 'dayjs'
+import omit from 'lodash/omit'
 
 import textAlign from 'styles/textAlign.module.scss'
 import styles from './CompanyHome.module.scss'
@@ -150,7 +151,7 @@ const CompanyHome: FC<Props> = ({ company, records }) => {
             const headCellProps = RECORD_TABLE_HEAD_CONFIG[cellIndex][1]
             return (
               <td
-                {...headCellProps}
+                {...omit(headCellProps, ['isDefaultToDescending', 'isSortSymbolBeforeTitle'])}
                 key={cellIndex}>
                 {getRecordValueByCellIndex(record, cellIndex)}
               </td>
