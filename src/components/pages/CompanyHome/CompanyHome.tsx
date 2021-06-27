@@ -13,7 +13,7 @@ import PageDocumentHead from 'components/molecules/PageDocumentHead'
 import PageFooter from 'components/molecules/PageFooter'
 import { companyList } from 'constants/companies'
 import { useRouter } from 'next/router'
-import Table from 'components/organisms/Table'
+import Table, { Props as TableProps } from 'components/organisms/Table'
 import { LOCALES, mapLocaleToApiLocale } from 'utils/i18n'
 
 type Record = FundPriceRecordWithDetails<'mpf', 'latest'>
@@ -25,6 +25,21 @@ const RISK_PRIORITY: { [key in Record['riskLevel']]: number } = {
   high: 4,
   veryHigh: 5,
 }
+
+interface CellProps extends HTMLProps<HTMLTableHeaderCellElement> {
+  isDefaultToDescending?: boolean;
+  isSortSymbolBeforeTitle?: boolean;
+}
+
+const RECORD_TABLE_HEAD_CONFIG: ([ReactNode] | [ReactNode, CellProps])[] = [
+  ['Code'],
+  ['Name'],
+  ['Price', { isDefaultToDescending: true }],
+  ['Day +/-', { isDefaultToDescending: true }],
+  ['Risk Level', { className: textAlign.center }],
+  ['Updated Date', { className: textAlign.right, isDefaultToDescending: true, isSortSymbolBeforeTitle: true }],
+  ['Recorded Time', { className: textAlign.right, isDefaultToDescending: true, isSortSymbolBeforeTitle: true }],
+]
 
 export interface Props {
   company: CompanyType;
@@ -85,52 +100,29 @@ const CompanyHome: FC<Props> = ({ company, records }) => {
     setSortState(getTableRowsSortStateReducer(cellIndex, isDefaultToDescending))
   }, [])
 
-  const renderRecordsHeaderRow = useCallback(() => {
-    interface CellProps extends HTMLProps<HTMLTableHeaderCellElement> {
-      isDefaultToDescending?: boolean;
-    }
-
+  const renderRecordsHeaderRow = useCallback<TableProps['renderHeaderRow']>(renderSortSymbol => {
     const renderCell = (
       index: number,
       children: ReactNode,
       cellProps?: CellProps,
     ) => {
-      const { isDefaultToDescending, ...props } = cellProps ?? {}
-      const foundSortStateIndex = sortState.findIndex(s => s.index === index)
-      const foundSortState = sortState[foundSortStateIndex]
+      const { isDefaultToDescending, isSortSymbolBeforeTitle, ...props } = cellProps ?? {}
       return (
         <th
           {...props}
           key={index}
           onClick={() => handleSort(index, isDefaultToDescending)}>
-          {children}
-          {foundSortState && (
-            <>
-              &nbsp;
-              {foundSortState.isDescending ? '↓' : '↑'}
-              <sub>{`${foundSortStateIndex + 1}`}</sub>
-            </>
-          )}
+          {isSortSymbolBeforeTitle ? renderSortSymbol(index) : children}
+          {isSortSymbolBeforeTitle ? children : renderSortSymbol(index)}
         </th>
       )
     }
-
-    const headData: ([ReactNode] | [ReactNode, CellProps])[] = [
-      ['Code'],
-      ['Name'],
-      ['Price', { isDefaultToDescending: true }],
-      ['Day +/-', { isDefaultToDescending: true }],
-      ['Risk Level', { className: textAlign.center }],
-      ['Updated Date', { className: textAlign.right, isDefaultToDescending: true }],
-      ['Recorded Time', { className: textAlign.right, isDefaultToDescending: true }],
-    ]
-
     return (
       <tr>
-        {headData.map(([children, props], i) => renderCell(i, children, props))}
+        {RECORD_TABLE_HEAD_CONFIG.map(([children, props], i) => renderCell(i, children, props))}
       </tr>
     )
-  }, [handleSort, sortState])
+  }, [handleSort])
 
   const getRecordValueByCellIndex = useCallback((r: Record, cellIndex: number): string | number => {
     if (cellIndex === 0) return r.code
@@ -160,14 +152,20 @@ const CompanyHome: FC<Props> = ({ company, records }) => {
       }
       return getArraySortNumber(valueA, valueB)
     })
-
-    return sortedRecords.map(r => (
-      <tr key={`${company}-${r.code}`}>
-        {Array(7)
+    return sortedRecords.map(record => (
+      <tr key={`${company}-${record.code}`}>
+        {Array(RECORD_TABLE_HEAD_CONFIG.length)
           .fill({})
-          .map((v, i) => (
-            <td key={i}>{getRecordValueByCellIndex(r, i)}</td>
-          ))}
+          .map((v, cellIndex) => {
+            const headCellProps = RECORD_TABLE_HEAD_CONFIG[cellIndex][1]
+            return (
+              <td
+                {...headCellProps}
+                key={cellIndex}>
+                {getRecordValueByCellIndex(record, cellIndex)}
+              </td>
+            )
+          })}
       </tr>
     ))
   }, [company, getRecordValueByCellIndex, records, sortState])
