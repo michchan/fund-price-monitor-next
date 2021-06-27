@@ -29,7 +29,7 @@
   flex-direction: column;
   justify-content: flex-end;
   align-items: center;
-  @include responsive('min-height', 300px, 240px, 180px);
+  @include responsive('min-height', 240px, 200px, 160px);
 
   & > * {
     text-align: center;

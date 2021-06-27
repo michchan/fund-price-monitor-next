@@ -37,7 +37,7 @@ const Table: FC<Props> = ({ renderHeaderRow, renderRows, sortState }) => {
   }
 
   return (
-    <table className={styles.container}>
+    <table className={styles.table}>
       <thead className={isSortEnabled ? styles.tableHeadWithSort : styles.tableHead}>
         {renderHeaderRow(renderSortSymbol)}
       </thead>
