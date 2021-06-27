@@ -3802,10 +3802,10 @@ simple-swizzle@^0.2.2:
   dependencies:
     is-arrayish "^0.3.1"
 
-simply-utils@0.58.0:
-  version "0.58.0"
-  resolved "https://registry.yarnpkg.com/simply-utils/-/simply-utils-0.58.0.tgz#d2e8f8a0428cf8305a65f01b7b62aa699286802f"
-  integrity sha512-NkXgVztm8xYSqkC5MGi+RwCMIvrGFmeT7Y+LzDdi8tOTmgoWqrQNJRXoy2TBee9hR4EjOf2M8WsiMtfjfAJ2rw==
+simply-utils@0.59.0:
+  version "0.59.0"
+  resolved "https://registry.yarnpkg.com/simply-utils/-/simply-utils-0.59.0.tgz#99d5bdce10103221c1b03dfcb486f109af3621fa"
+  integrity sha512-gS3ucDbLsi0thHQf+rvta0Xwy4f2yl/mfHeBlTHoqByUHWx3WvkHTF9SEvy1jLU88BmQdLgRQvB61VmV3WK2ag==
   dependencies:
     "@types/node-fetch" "^2.5.10"
     eastasianwidth "0.2.0"

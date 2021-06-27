@@ -4,6 +4,7 @@ import { CompanyType, FundPriceRecordWithDetails, RiskLevel } from '@michchan/fu
 import getArraySortNumber from 'simply-utils/dist/array/getArraySortNumber'
 import getNumberFromPercentageString from 'simply-utils/dist/number/getNumberFromPercentageString'
 import sortTableRowsByEachCell, { TableCellSortState } from 'simply-utils/dist/algo/sortTableRowsByEachCell'
+import getTableRowsSortStateReducer from 'simply-utils/dist/algo/getTableRowsSortStateReducer'
 import dayjs from 'dayjs'
 
 import textAlign from 'styles/textAlign.module.scss'
@@ -81,25 +82,7 @@ const CompanyHome: FC<Props> = ({ company, records }) => {
   const [sortState, setSortState] = useState<TableCellSortState[]>([])
 
   const handleSort = useCallback((cellIndex: number, isDefaultToDescending: boolean = false) => {
-    setSortState(prev => {
-      const prevCellState = prev.find(s => s.index === cellIndex)
-      // Case: previously not sorted --> append this cell
-      if (!prevCellState)
-        return [...prev, { index: cellIndex, isDescending: isDefaultToDescending }]
-      // Case: previously was not default ordering --> remove this cell
-      if (prevCellState.isDescending !== isDefaultToDescending)
-        return prev.filter(s => s.index !== cellIndex)
-      // Default case: previously was sorted --> change sort ordering
-      return prev.map(s => {
-        if (s.index === cellIndex) {
-          return {
-            index: cellIndex,
-            isDescending: !s.isDescending,
-          }
-        }
-        return s
-      })
-    })
+    setSortState(getTableRowsSortStateReducer(cellIndex, isDefaultToDescending))
   }, [])
 
   const renderRecordsHeaderRow = useCallback(() => {
