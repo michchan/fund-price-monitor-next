@@ -29,7 +29,7 @@
   flex-direction: column;
   justify-content: flex-end;
   align-items: center;
-  @include responsive('min-height', 240px, 200px, 160px);
+  @include responsive('min-height', 200px, 180px, 140px);
 
   & > * {
     text-align: center;
@@ -49,6 +49,14 @@
   }
 }
 
+.headerSection {
+  width: 100%;
+  max-width: $app_max_width;
+  padding: $app_padding_verti $app_padding_horiz;
+  display: flex;
+  justify-content: flex-end;
+}
+
 .filterSection {
   padding: $app_padding_verti $app_padding_horiz;
 }
@@ -56,4 +64,12 @@
 .tableSection {
   width: 100%;
   padding: $app_padding_verti 0px;
+}
+
+.localeSelect {
+  width: 120px !important;
+}
+
+.companySelect {
+  width: 280px !important;
 }

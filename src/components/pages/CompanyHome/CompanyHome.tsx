@@ -1,4 +1,4 @@
-import { FC, useCallback, FocusEvent, ChangeEvent, useState, ReactNode, HTMLProps } from 'react'
+import { FC, useCallback, useState, ReactNode, HTMLProps } from 'react'
 import { useTranslation } from 'next-i18next'
 import { CompanyType, FundPriceRecordWithDetails, RiskLevel } from '@michchan/fund-price-monitor-lib'
 import getArraySortNumber from 'simply-utils/dist/array/getArraySortNumber'
@@ -15,6 +15,7 @@ import { companyList } from 'constants/companies'
 import { useRouter } from 'next/router'
 import Table, { Props as TableProps } from 'components/organisms/Table'
 import { LOCALES, mapLocaleToApiLocale } from 'utils/i18n'
+import Select, { SelectOption } from 'components/molecules/Select'
 
 type Record = FundPriceRecordWithDetails<'mpf', 'latest'>
 
@@ -25,6 +26,9 @@ const RISK_PRIORITY: { [key in Record['riskLevel']]: number } = {
   high: 4,
   veryHigh: 5,
 }
+
+const companyOptions = companyList.map(value => ({ value, label: value }))
+const localeOptions = LOCALES.map(value => ({ value, label: value }))
 
 interface CellProps extends HTMLProps<HTMLTableHeaderCellElement> {
   isDefaultToDescending?: boolean;
@@ -52,46 +56,32 @@ const CompanyHome: FC<Props> = ({ company, records }) => {
   const router = useRouter()
   const { t: tCommon, i18n } = useTranslation('common')
 
-  const handleLanguageSelectChange = useCallback((
-    e: FocusEvent<HTMLSelectElement> | ChangeEvent<HTMLSelectElement>
-  ) => {
-    const { value } = e.target
+  const handleLanguageSelectChange = useCallback((option: SelectOption | null) => {
+    if (!option) return
+    const { value } = option
     router.push(`/${value}/${company}`, undefined, { locale: value })
   }, [company, router])
 
   const renderLanguageSelect = () => (
-    <select
-      onBlur={handleLanguageSelectChange}
+    <Select
+      className={styles.localeSelect}
       onChange={handleLanguageSelectChange}
-      value={i18n.language}>
-      {LOCALES.map(locale => (
-        <option
-          key={locale}
-          label={locale}
-          value={locale}/>
-      ))}
-    </select>
+      options={localeOptions}
+      value={{ value: i18n.language, label: i18n.language }}/>
   )
 
-  const handleCompanySelectChange = useCallback((
-    e: FocusEvent<HTMLSelectElement> | ChangeEvent<HTMLSelectElement>
-  ) => {
-    const { value } = e.target
+  const handleCompanySelectChange = useCallback((option: SelectOption | null) => {
+    if (!option) return
+    const { value } = option
     router.push(`/${i18n.language}/${value}`, undefined, { locale: i18n.language })
   }, [i18n.language, router])
 
   const renderCompanySelect = () => (
-    <select
-      onBlur={handleCompanySelectChange}
+    <Select
+      className={styles.companySelect}
       onChange={handleCompanySelectChange}
-      value={company}>
-      {companyList.map(com => (
-        <option
-          key={com}
-          label={com}
-          value={com}/>
-      ))}
-    </select>
+      options={companyOptions}
+      value={{ value: company, label: company }}/>
   )
 
   const [sortState, setSortState] = useState<TableCellSortState[]>([])
@@ -180,13 +170,15 @@ const CompanyHome: FC<Props> = ({ company, records }) => {
   return (
     <div className={styles.container}>
       <PageDocumentHead/>
+      <header className={styles.headerSection}>
+        {renderLanguageSelect()}
+      </header>
       <main className={styles.main}>
         <section className={styles.titleSection}>
           <h1 className={styles.titleSection_title}>{tCommon('title')}</h1>
           <p className={styles.titleSection_subtitle}>{tCommon('subtitle')}</p>
         </section>
         <section className={styles.filterSection}>
-          {renderLanguageSelect()}
           {renderCompanySelect()}
         </section>
         <section className={styles.tableSection}>
