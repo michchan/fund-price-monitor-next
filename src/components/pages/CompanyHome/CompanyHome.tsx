@@ -21,6 +21,7 @@ import Select, { SelectOption } from 'components/molecules/Select'
 type Record = FundPriceRecordWithDetails<'mpf', 'latest'>
 
 const RISK_PRIORITY: { [key in Record['riskLevel']]: number } = {
+  unknown: 0,
   veryLow: 1,
   low: 2,
   neutral: 3,

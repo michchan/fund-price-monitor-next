@@ -35,8 +35,8 @@ jobs:
       - run: yarn lint
       - run: yarn build
         env:
-          NEXT_PUBLIC_API_HOST: ${{ secrets.NEXT_PUBLIC_API_HOST }}
-          NEXT_PUBLIC_API_KEY: ${{ secrets.NEXT_PUBLIC_API_KEY }}
+          API_HOST: ${{ secrets.API_HOST }}
+          API_KEY: ${{ secrets.API_KEY }}
       - run: yarn deploy
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}

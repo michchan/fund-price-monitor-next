@@ -6,8 +6,8 @@ import {
 } from '@michchan/fund-price-monitor-lib'
 import { isomorphicFetch, withQuery } from 'utils/restApi'
 
-const HOST = `${process.env.NEXT_PUBLIC_API_HOST}/fundprices/mpf`
-const API_KEY = process.env.NEXT_PUBLIC_API_KEY as string
+const HOST = `${process.env.API_HOST}/fundprices/mpf`
+const API_KEY = process.env.API_KEY as string
 
 const withApiKey = () => ({ 'x-api-key': API_KEY })
 
