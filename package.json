@@ -36,7 +36,7 @@
     "simply-utils": "0.59.0"
   },
   "devDependencies": {
-    "@michchan/eslint-config": "1.8.0",
+    "@michchan/eslint-config": "1.9.0",
     "@types/lodash": "^4.14.168",
     "@types/node": "^14.14.31",
     "@types/node-fetch": "^2.5.10",

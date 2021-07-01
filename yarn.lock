@@ -177,10 +177,10 @@
   resolved "https://registry.yarnpkg.com/@hapi/hoek/-/hoek-9.1.1.tgz#9daf5745156fd84b8e9889a2dc721f0c58e894aa"
   integrity sha512-CAEbWH7OIur6jEOzaai83jq3FmKmv4PmX1JYfs9IrYcGEVI/lyL1EXJGCj7eFVJ0bg5QR8LMxBlEtA+xKiLpFw==
 
-"@michchan/eslint-config@1.8.0":
-  version "1.8.0"
-  resolved "https://registry.yarnpkg.com/@michchan/eslint-config/-/eslint-config-1.8.0.tgz#9faaf184cc7463a49534e92fbae7365a7fcda9a1"
-  integrity sha512-XVg10DKov4FSO9sLd2NVdbEhTHXDNHVLkt6E/it5afO3nyil38/TxO+UUbwYVRjNAadtOngwd1MMDyZraS/4YQ==
+"@michchan/eslint-config@1.9.0":
+  version "1.9.0"
+  resolved "https://registry.yarnpkg.com/@michchan/eslint-config/-/eslint-config-1.9.0.tgz#48021c65e1163f59b93ea0aeff83e5553a24ab88"
+  integrity sha512-+oaWU4BsgiHpFwShXyPFy7RUEuG6FkFG18UgZsmU/255+uJ3pfGF8MiL6ZZZmLYh2wWDWXMo0ezwdedQbJVp3Q==
   dependencies:
     "@typescript-eslint/eslint-plugin" "4.x"
     "@typescript-eslint/parser" "4.x"
