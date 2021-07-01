@@ -6,6 +6,7 @@ import {
 } from '@michchan/fund-price-monitor-lib'
 import { isomorphicFetch, withQuery } from 'utils/restApi'
 
+/** @ServerSideOnly */
 const HOST = `${process.env.API_HOST}/fundprices/mpf`
 const API_KEY = process.env.API_KEY as string
 

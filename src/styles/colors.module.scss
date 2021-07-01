@@ -1,10 +1,8 @@
-$color_footer_bg: #EBE4DA;
-$color_title: #605649;
-$color_subtitle: #857C6F;
-$color_table_background: #F9F6F3;
-$color_table_background_dark: #F6F1EC;
+@import './colors.scss';
 
 :export {
+  color_white: $color_white;
+  color_gray: $color_gray;
   color_footer_bg: $color_footer_bg;
   color_title: $color_title;
   color_subtitle: $color_subtitle;

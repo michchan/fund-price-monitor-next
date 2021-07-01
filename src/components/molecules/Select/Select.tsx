@@ -1,5 +1,5 @@
 import { FC } from 'react'
-import ReactSelect, { Props as ReactSelectProps } from 'react-select'
+import ReactSelect, { NamedProps as ReactSelectProps } from 'react-select'
 
 import styles from './Select.module.scss'
 import colors from 'styles/colors.module.scss'
@@ -30,7 +30,7 @@ export default Select
 
 const selectStyles: ReactSelectProps['styles'] = {
   control: (base, { isFocused }) => {
-    const borderColor = isFocused ? colors.color_subtitle : '#999'
+    const borderColor = isFocused ? colors.color_subtitle : colors.color_gray
     return {
       ...base,
       color: colors.color_title,
@@ -49,12 +49,12 @@ const selectStyles: ReactSelectProps['styles'] = {
   }),
   option: (base, { isFocused, isSelected }) => ({
     ...base,
-    color: isSelected ? '#fff' : colors.color_title,
+    color: isSelected ? colors.color_white : colors.color_title,
     backgroundColor: isSelected
       ? colors.color_subtitle
       : isFocused
         ? colors.color_table_background
-        : '#fff',
+        : colors.color_white,
     ':active': {
       ...base[':active'],
       backgroundColor: colors.color_footer_bg,
