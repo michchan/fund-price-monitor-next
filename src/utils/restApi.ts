@@ -5,7 +5,6 @@ import nodeFetch, {
   Response as NodeFetchResponse,
 } from 'node-fetch'
 import { isServerSide } from './environment'
-import { ListErrorResponse } from '@michchan/fund-price-monitor-lib'
 
 const HttpsProxyAgent = require('https-proxy-agent')
 const HttpProxyAgent = require('http-proxy-agent')
