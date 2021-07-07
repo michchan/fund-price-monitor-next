@@ -2,6 +2,7 @@
  * For script generating no language fallback static pages
  * (Used by scripts/generateNoLangFallbackPages)
  */
+import { CompanyType } from '@michchan/fund-price-monitor-lib'
 import { listCompanies } from 'services/fundprices'
 
 export interface DynamicPathConfig {
@@ -17,7 +18,7 @@ const getDynamicPaths = async (): Promise<DynamicPathConfig[]> => {
   return [
     {
       path: '[company]/index',
-      variants: companiesRes.data.map(company => `${company}/index`),
+      variants: companiesRes.data.map((company: CompanyType) => `${company}/index`),
     },
   ]
 }
