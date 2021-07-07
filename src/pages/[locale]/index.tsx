@@ -5,18 +5,23 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useTranslation } from 'next-i18next'
 
 import { getFallbackLocale, getLocalesPaths } from 'utils/i18n'
-import { companyList } from 'constants/companies'
 import LoadingPage from 'components/pages/LoadingPage'
 import { isClientSide } from 'utils/environment'
+import { CompanyType } from '@michchan/fund-price-monitor-lib'
+import { listCompanies } from 'services/fundprices'
 
-const Home: FC = () => {
+export interface Props {
+  companies: CompanyType[];
+}
+
+const Home: FC<Props> = ({ companies }) => {
   const router = useRouter()
   const { i18n } = useTranslation()
 
   // Make sure we're in the browser
   if (isClientSide())
     // Fallback to the default company
-    router.replace(`${i18n.language || getFallbackLocale()}/${companyList[0]}`)
+    router.replace(`${i18n.language || getFallbackLocale()}/${companies[0]}`)
 
   return <LoadingPage/>
 }
@@ -30,11 +35,17 @@ export const getStaticPaths: GetStaticPaths = async () => ({
   fallback: false,
 })
 
-export const getStaticProps: GetStaticProps = async ({ params }) => {
+export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
   const locale = (params?.locale || getFallbackLocale()) as string
+
+  const companiesRes = await listCompanies()
+  if (!companiesRes.result)
+    throw new Error(`listCompanies failed: ${JSON.stringify(companiesRes.error)}`)
+
   return {
     props: {
       ...await serverSideTranslations(locale, ['common']),
+      companies: companiesRes.data,
     },
   }
 }

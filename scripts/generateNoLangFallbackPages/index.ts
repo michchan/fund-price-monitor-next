@@ -3,7 +3,7 @@ import * as fs from 'fs'
 import camelCase from 'lodash/camelCase'
 import upperFirst from 'lodash/upperFirst'
 
-import dynamicPaths from '../../src/config/dynamicPaths'
+import getDynamicPaths from '../../src/config/getDynamicPaths'
 
 const PAGES_PATH = 'src/pages'
 const LOCALE_DIRNAME = '[locale]'
@@ -28,7 +28,9 @@ const removePagesSegments = (pathname: string) => pathname
 
 const writePaths: string[] = []
 
-const generate = (path: string) => {
+const generate = async (path: string) => {
+  const dynamicPaths = await getDynamicPaths()
+
   // E.g. ['index.tsx', 'about.tsx']
   const pathnames = fs.readdirSync(path)
   /**

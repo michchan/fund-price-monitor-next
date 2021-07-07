@@ -7,7 +7,7 @@
     "deploy": "node scripts/deployToS3",
     "deploy-local": "node -r dotenv/config scripts/deployToS3 dotenv_config_path=.env.local",
     "dev": "concurrently -n next,tsm \"next dev\" \"yarn tsm-watch\"",
-    "generate-no-lang-fallback-pages": "ts-node -r tsconfig-paths/register --project tsconfig.script.json scripts/generateNoLangFallbackPages",
+    "generate-no-lang-fallback-pages": "ts-node -r tsconfig-paths/register -r dotenv/config --project tsconfig.script.json scripts/generateNoLangFallbackPages",
     "remove-no-lang-fallback-pages": "node scripts/removeNoLangFallbackPages",
     "lint": "eslint --ext .js,.jsx,.ts,.tsx .",
     "lint-fix": "yarn lint --fix",

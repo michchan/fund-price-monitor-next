@@ -1,4 +1,4 @@
-import { FC, useCallback, useState, ReactNode, HTMLProps } from 'react'
+import { FC, useCallback, useState, ReactNode, HTMLProps, useMemo } from 'react'
 import { useTranslation } from 'next-i18next'
 import { CompanyType, FundPriceRecordWithDetails, RiskLevel } from '@michchan/fund-price-monitor-lib'
 import getArraySortNumber from 'simply-utils/dist/array/getArraySortNumber'
@@ -12,7 +12,6 @@ import textAlign from 'styles/textAlign.module.scss'
 import styles from './CompanyHome.module.scss'
 import PageDocumentHead from 'components/molecules/PageDocumentHead'
 import PageFooter from 'components/molecules/PageFooter'
-import { companyList } from 'constants/companies'
 import { useRouter } from 'next/router'
 import Table, { Props as TableProps } from 'components/organisms/Table'
 import { LOCALES, mapLocaleToApiLocale } from 'utils/i18n'
@@ -29,7 +28,6 @@ const RISK_PRIORITY: { [key in Record['riskLevel']]: number } = {
   veryHigh: 5,
 }
 
-const companyOptions = companyList.map(value => ({ value, label: value }))
 const localeOptions = LOCALES.map(value => ({ value, label: value }))
 
 interface CellProps extends HTMLProps<HTMLTableHeaderCellElement> {
@@ -48,13 +46,14 @@ const RECORD_TABLE_HEAD_CONFIG: ([ReactNode] | [ReactNode, CellProps])[] = [
 ]
 
 export interface Props {
+  companies: CompanyType[];
   company: CompanyType;
   records: Record[];
 }
 
 // @REASON: This is a component
 // eslint-disable-next-line max-lines-per-function
-const CompanyHome: FC<Props> = ({ company, records }) => {
+const CompanyHome: FC<Props> = ({ companies, company, records }) => {
   const router = useRouter()
   const { t: tCommon, i18n } = useTranslation('common')
 
@@ -71,6 +70,11 @@ const CompanyHome: FC<Props> = ({ company, records }) => {
       options={localeOptions}
       value={{ value: i18n.language, label: i18n.language }}/>
   )
+
+  const companyOptions = useMemo(() => companies.map(value => ({
+    value,
+    label: value,
+  })), [companies])
 
   const handleCompanySelectChange = useCallback((option: SelectOption | null) => {
     if (!option) return
