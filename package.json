@@ -15,7 +15,8 @@
     "sync-i18n-json": "node scripts/syncI18nJSONs",
     "tsm": "tsm src --nameFormat none",
     "tsm-watch": "yarn tsm -w",
-    "tsc-watch": "tsc --watch --noemit"
+    "tsc-watch": "tsc --watch --noemit",
+    "release": "standard-version --ignore-path .gitignore --commit-hook false"
   },
   "dependencies": {
     "@michchan/fund-price-monitor-lib": "0.8.1",
@@ -50,6 +51,7 @@
     "eslint": "^7.22.0",
     "mime-types": "^2.1.29",
     "serve": "^11.3.2",
+    "standard-version": "^9.3.2",
     "ts-node": "^9.1.1",
     "tsconfig-paths": "^3.9.0",
     "typed-scss-modules": "^4.1.0",
