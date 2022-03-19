@@ -1,6 +1,6 @@
 {
   "name": "fund-price-monitor-next",
-  "version": "0.10.6",
+  "version": "0.10.7",
   "private": true,
   "engines": {
     "node": ">=16.0.0",
