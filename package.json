@@ -2,6 +2,11 @@
   "name": "fund-price-monitor-next",
   "version": "0.10.6",
   "private": true,
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": "please-use-yarn",
+    "yarn": ">= 1.22.0"
+  },
   "scripts": {
     "build": "next build && next export",
     "prebuild": "ts-node -r tsconfig-paths/register -r dotenv/config --project tsconfig.script.json scripts/generateNoLangFallbackPages",
