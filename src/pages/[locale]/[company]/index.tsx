@@ -1,6 +1,6 @@
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { GetStaticPaths, GetStaticProps } from 'next'
-import { CompanyType } from '@michchan/fund-price-monitor-lib'
+import { CompanyType, RecordType } from '@michchan/fund-price-monitor-lib'
 
 import { getFallbackLocale, getLocalesPaths } from 'utils/i18n'
 import { Props } from 'components/pages/CompanyHome'
@@ -30,7 +30,7 @@ export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
   if (!companiesRes.result)
     throw new Error(`listCompanies failed: ${JSON.stringify(companiesRes.error)}`)
 
-  const recordsRes = await listCompanyRecords<'latest'>(company, { latest: true })
+  const recordsRes = await listCompanyRecords<RecordType.latest>(company, { latest: true })
   if (!recordsRes.result)
     throw new Error(`listCompanyRecords failed: ${JSON.stringify(recordsRes.error)}`)
 

@@ -1,6 +1,6 @@
 import { FC, useCallback, useState, ReactNode, HTMLProps, useMemo } from 'react'
 import { useTranslation } from 'next-i18next'
-import { CompanyType, FundPriceRecordWithDetails, RiskLevel } from '@michchan/fund-price-monitor-lib'
+import { CompanyType, FundPriceRecordWithDetails, FundType, RecordType, RiskLevel } from '@michchan/fund-price-monitor-lib'
 import getArraySortNumber from 'simply-utils/dist/array/getArraySortNumber'
 import getNumberFromPercentageString from 'simply-utils/dist/number/getNumberFromPercentageString'
 import sortTableRowsByEachCell, { TableCellSortState } from 'simply-utils/dist/algo/sortTableRowsByEachCell'
@@ -17,7 +17,7 @@ import Table, { Props as TableProps } from 'components/organisms/Table'
 import { LOCALES, mapLocaleToApiLocale } from 'utils/i18n'
 import Select, { SelectOption } from 'components/molecules/Select'
 
-type Record = FundPriceRecordWithDetails<'mpf', 'latest'>
+type Record = FundPriceRecordWithDetails<FundType.mpf, RecordType.latest>
 
 const RISK_PRIORITY: { [key in Record['riskLevel']]: number } = {
   unknown: 0,

@@ -5,6 +5,7 @@ import {
   ListCompaniesResponse,
   ListCompanyRecordsQueryParams,
   ListCompanyRecordsResponse,
+  FundType,
 } from '@michchan/fund-price-monitor-lib'
 import { isomorphicFetch, withQuery } from 'utils/restApi'
 
@@ -23,6 +24,8 @@ export const listCompanies = (
 export const listCompanyRecords = <RT extends RecordType> (
   company: CompanyType,
   query: ListCompanyRecordsQueryParams = {}
-): Promise<ListCompanyRecordsResponse<'mpf', RT>> => isomorphicFetch(withQuery(`${HOST}/${company}`, query), {
-  headers: withApiKey(),
-}).then(res => res.json() as Promise<ListCompanyRecordsResponse<'mpf', RT>>)
+): Promise<ListCompanyRecordsResponse<FundType.mpf, RT>> => isomorphicFetch(
+  withQuery(`${HOST}/${company}`, query), {
+    headers: withApiKey(),
+  }
+).then(res => res.json() as Promise<ListCompanyRecordsResponse<FundType.mpf, RT>>)

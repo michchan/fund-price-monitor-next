@@ -3,8 +3,8 @@ import { GetStaticPathsResult } from 'next'
 import { i18n } from '../../next-i18next.config'
 
 const LOCALE_API_LOCALE_MAP: { [k: string]: Languages } = {
-  en: 'en',
-  zh: 'zh_HK',
+  en: Languages.en,
+  zh: Languages.zh_HK,
 }
 
 export const LOCALES = i18n.locales
