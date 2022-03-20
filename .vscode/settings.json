@@ -2,6 +2,21 @@
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": true
   },
+  "[javascript]": {
+    "editor.defaultFormatter": null
+  },
+  "[javascriptreact]": {
+    "editor.defaultFormatter": null
+  },
+  "[json]": {
+    "editor.defaultFormatter": null
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": null
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": null
+  },
   "typescript.tsdk": "node_modules/typescript/lib",
   "yaml.customTags": [
     "!And",

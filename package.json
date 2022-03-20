@@ -8,15 +8,15 @@
     "yarn": ">= 1.22.0"
   },
   "scripts": {
+    "dev": "concurrently -n next,tsm \"next dev\" \"yarn tsm-watch\"",
+    "prebuild": "ts-node --show-config && ts-node -r tsconfig-paths/register -r dotenv/config scripts/generateNoLangFallbackPages",
     "build": "next build && next export",
-    "prebuild": "ts-node -r tsconfig-paths/register -r dotenv/config --project tsconfig.script.json scripts/generateNoLangFallbackPages",
     "postbuild": "node scripts/removeNoLangFallbackPages",
+    "start": "serve out",
     "deploy": "node scripts/deployToS3",
     "deploy-local": "node -r dotenv/config scripts/deployToS3 dotenv_config_path=.env.local",
-    "dev": "concurrently -n next,tsm \"next dev\" \"yarn tsm-watch\"",
     "lint": "eslint --ext .js,.jsx,.ts,.tsx .",
     "lint-fix": "yarn lint --fix",
-    "start": "serve out",
     "sync-i18n-json": "node scripts/syncI18nJSONs",
     "tsm": "tsm src --nameFormat none",
     "tsm-watch": "yarn tsm -w",
@@ -24,28 +24,29 @@
     "release": "standard-version --ignore-path .gitignore --commit-hook false"
   },
   "dependencies": {
-    "@michchan/fund-price-monitor-lib": "0.8.1",
+    "@michchan/fund-price-monitor-lib": "0.8.3",
     "dayjs": "^1.10.5",
     "html-react-parser": "^1.2.4",
     "http-proxy-agent": "^4.0.1",
     "https-proxy-agent": "^5.0.0",
     "lodash": "^4.17.21",
-    "next": "10.0.7",
-    "next-i18next": "^8.1.2",
+    "next": "12.1.0",
+    "next-i18next": "10.5.0",
     "nextjs-progressbar": "^0.0.11",
+    "node-fetch": "2.6.1",
     "nprogress": "^0.2.0",
     "qs": "^6.10.1",
-    "react": "17.0.1",
-    "react-dom": "17.0.1",
+    "react": "17.0.2",
+    "react-dom": "17.0.2",
     "react-select": "^4.3.1",
     "sass": "^1.32.8",
-    "simply-utils": "0.59.0"
+    "simply-utils": "0.62.0"
   },
   "devDependencies": {
-    "@michchan/eslint-config": "1.9.0",
+    "@michchan/eslint-config": "1.11.0",
     "@types/lodash": "^4.14.168",
     "@types/node": "^14.14.31",
-    "@types/node-fetch": "^2.5.10",
+    "@types/node-fetch": "^2.6.1",
     "@types/nprogress": "^0.2.0",
     "@types/qs": "^6.9.6",
     "@types/react": "^17.0.2",
@@ -53,13 +54,13 @@
     "aws-sdk": "^2.884.0",
     "concurrently": "^6.0.0",
     "dotenv": "^8.2.0",
-    "eslint": "^7.22.0",
+    "eslint": "7.32.0",
     "mime-types": "^2.1.29",
     "serve": "^11.3.2",
     "standard-version": "^9.3.2",
-    "ts-node": "^9.1.1",
+    "ts-node": "10.7.0",
     "tsconfig-paths": "^3.9.0",
     "typed-scss-modules": "^4.1.0",
-    "typescript": "^4.2.2"
+    "typescript": "4.6.2"
   }
 }

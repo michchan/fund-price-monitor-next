@@ -23,8 +23,11 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
-    "typeRoots": ["./node_modules/@types"],
-    "baseUrl": "src"
+    "typeRoots": [
+      "./node_modules/@types"
+    ],
+    "baseUrl": "src",
+    "incremental": true
   },
   "include": [
     "next-env.d.ts",
@@ -33,5 +36,35 @@
   ],
   "exclude": [
     "node_modules"
-  ]
+  ],
+  "ts-node": {
+    "compilerOptions": {
+      "target": "ESNext",
+      "lib": [
+        "dom",
+        "dom.iterable",
+        "esnext",
+        "ESNext.Promise",
+        "ESNext.BigInt",
+        "ESNext.String"
+      ],
+      "allowJs": true,
+      "skipLibCheck": true,
+      "strict": true,
+      "noImplicitAny": true,
+      "strictNullChecks": true,
+      "noImplicitThis": true,
+      "forceConsistentCasingInFileNames": true,
+      "noEmit": true,
+      "esModuleInterop": true,
+      "allowSyntheticDefaultImports": true,
+      "module": "CommonJS",
+      "moduleResolution": "node",
+      "resolveJsonModule": true,
+      "isolatedModules": true,
+      "jsx": "react-jsx",
+      "typeRoots": ["./node_modules/@types"],
+      "baseUrl": "src"
+    }
+  }
 }

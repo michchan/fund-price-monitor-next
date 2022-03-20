@@ -36,3 +36,6 @@ yarn-error.log*
 
 # Custom script cache
 .script_cache
+
+# ts cache
+tsconfig.tsbuildinfo

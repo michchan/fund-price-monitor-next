@@ -2,6 +2,7 @@
 import * as fs from 'fs'
 import camelCase from 'lodash/camelCase'
 import upperFirst from 'lodash/upperFirst'
+import wait from 'simply-utils/dist/async/wait'
 
 import getDynamicPaths from '../../src/config/getDynamicPaths'
 
@@ -109,10 +110,15 @@ const generate = async (path: string) => {
   })
 }
 
-generate(LOCALE_PAGES_PATH)
 
-// Cache writePaths
-if (!fs.existsSync(CACHE_FILE))
-  fs.mkdirSync(CACHE_FILE)
+// Main execution
+(async () => {
+  await generate(LOCALE_PAGES_PATH)
 
-fs.writeFileSync(`${CACHE_FILE}/${CACHE_FILENAME}`, JSON.stringify({ writePaths }))
+  // Cache writePaths
+  if (!fs.existsSync(CACHE_FILE))
+    fs.mkdirSync(CACHE_FILE)
+
+  await wait(500)
+  fs.writeFileSync(`${CACHE_FILE}/${CACHE_FILENAME}`, JSON.stringify({ writePaths }))
+})()
