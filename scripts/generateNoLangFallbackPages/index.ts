@@ -110,7 +110,6 @@ const generate = async (path: string) => {
   })
 }
 
-
 // Main execution
 (async () => {
   await generate(LOCALE_PAGES_PATH)
