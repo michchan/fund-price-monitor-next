@@ -15,6 +15,7 @@
     "start": "serve out",
     "deploy": "node scripts/deployToS3",
     "deploy-local": "node -r dotenv/config scripts/deployToS3 dotenv_config_path=.env.local",
+    "link": "yarn link \"@michchan/fund-price-monitor-lib\"",
     "lint": "eslint --ext .js,.jsx,.ts,.tsx .",
     "lint-fix": "yarn lint --fix",
     "sync-i18n-json": "node scripts/syncI18nJSONs",
