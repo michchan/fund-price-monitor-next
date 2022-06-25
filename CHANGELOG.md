@@ -2,6 +2,8 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.10.11](https://github.com/michchan/fund-price-monitor-next/compare/v0.10.10...v0.10.11) (2022-06-25)
+
 ### [0.10.10](https://github.com/michchan/fund-price-monitor-next/compare/v0.10.9...v0.10.10) (2022-03-20)
 
 ### [0.10.9](https://github.com/michchan/fund-price-monitor-next/compare/v0.10.8...v0.10.9) (2022-03-20)
