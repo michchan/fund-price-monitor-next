@@ -57,6 +57,8 @@ const CompanyHome: FC<Props> = ({ companies, company, records }) => {
   const router = useRouter()
   const { t: tCommon, i18n } = useTranslation('common')
 
+  /** ------------------------- Langauge select ------------------------- */
+
   const handleLanguageSelectChange = useCallback((option: SelectOption | null) => {
     if (!option) return
     const { value } = option
@@ -70,6 +72,8 @@ const CompanyHome: FC<Props> = ({ companies, company, records }) => {
       options={localeOptions}
       value={{ value: i18n.language, label: i18n.language }}/>
   )
+
+  /** ------------------------- Company select ------------------------- */
 
   const companyOptions = useMemo(() => companies.map(value => ({
     value,
@@ -90,35 +94,13 @@ const CompanyHome: FC<Props> = ({ companies, company, records }) => {
       value={{ value: company, label: company }}/>
   )
 
+  /** ------------------------- Table sorting/rendering ------------------------- */
+
   const [sortState, setSortState] = useState<TableCellSortState[]>([])
 
   const handleSort = useCallback((cellIndex: number, isDefaultToDescending: boolean = false) => {
     setSortState(getTableRowsSortStateReducer(cellIndex, isDefaultToDescending))
   }, [])
-
-  const renderRecordsHeaderRow = useCallback<TableProps['renderHeaderRow']>(renderSortSymbol => {
-    const renderCell = (
-      index: number,
-      children: ReactNode,
-      cellProps?: CellProps,
-    ) => {
-      const { isDefaultToDescending, isSortSymbolBeforeTitle, ...props } = cellProps ?? {}
-      return (
-        <th
-          {...props}
-          key={index}
-          onClick={() => handleSort(index, isDefaultToDescending)}>
-          {isSortSymbolBeforeTitle ? renderSortSymbol(index) : children}
-          {isSortSymbolBeforeTitle ? children : renderSortSymbol(index)}
-        </th>
-      )
-    }
-    return (
-      <tr>
-        {RECORD_TABLE_HEAD_CONFIG.map(([children, props], i) => renderCell(i, children, props))}
-      </tr>
-    )
-  }, [handleSort])
 
   const getRecordValueByCellIndex = useCallback((r: Record, cellIndex: number): string | number => {
     if (cellIndex === 0) return r.code
@@ -165,6 +147,30 @@ const CompanyHome: FC<Props> = ({ companies, company, records }) => {
       </tr>
     ))
   }, [company, getRecordValueByCellIndex, records, sortState])
+
+  const renderRecordsHeaderRow = useCallback<TableProps['renderHeaderRow']>(renderSortSymbol => {
+    const renderCell = (
+      index: number,
+      children: ReactNode,
+      cellProps?: CellProps,
+    ) => {
+      const { isDefaultToDescending, isSortSymbolBeforeTitle, ...props } = cellProps ?? {}
+      return (
+        <th
+          {...props}
+          key={index}
+          onClick={() => handleSort(index, isDefaultToDescending)}>
+          {isSortSymbolBeforeTitle ? renderSortSymbol(index) : children}
+          {isSortSymbolBeforeTitle ? children : renderSortSymbol(index)}
+        </th>
+      )
+    }
+    return (
+      <tr>
+        {RECORD_TABLE_HEAD_CONFIG.map(([children, props], i) => renderCell(i, children, props))}
+      </tr>
+    )
+  }, [handleSort])
 
   const renderRecordsTable = () => (
     <Table
