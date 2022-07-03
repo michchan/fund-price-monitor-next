@@ -1,11 +1,14 @@
 import {
   CompanyType,
   RecordType,
+  AggregatedRecordType,
+  FundType,
   ListCompaniesQueryParams,
   ListCompaniesResponse,
   ListCompanyRecordsQueryParams,
   ListCompanyRecordsResponse,
-  FundType,
+  ListCompanySinglePeriodRatesResponse,
+  ListCompanySinglePeriodRatesQueryParams,
 } from '@michchan/fund-price-monitor-lib'
 import { isomorphicFetch, withQuery } from 'utils/restApi'
 
@@ -29,3 +32,55 @@ export const listCompanyRecords = <RT extends RecordType> (
     headers: withApiKey(),
   }
 ).then(res => res.json() as Promise<ListCompanyRecordsResponse<FundType.mpf, RT>>)
+
+type ChangeRatesResponse <RT extends AggregatedRecordType> = ListCompanySinglePeriodRatesResponse<
+FundType.mpf, RT>
+
+export const listCompanyFundsSinglePeriodRates = <RT extends AggregatedRecordType> (
+  periodType: RT,
+  company: CompanyType,
+  periodExpression: string,
+  query: ListCompanySinglePeriodRatesQueryParams = {}
+): Promise<ChangeRatesResponse<RT>> => {
+  const periodPath = (() => {
+    switch (periodType) {
+      case AggregatedRecordType.quarter:
+        return 'quarterrates'
+      case AggregatedRecordType.month:
+        return 'monthrates'
+      case AggregatedRecordType.week:
+        return 'weekrates'
+    }
+  })()
+  return isomorphicFetch(
+    withQuery(`${HOST}/${company}/${periodPath}/${periodExpression}`, query), {
+      headers: withApiKey(),
+    }
+  ).then(res => res.json() as Promise<ChangeRatesResponse<RT>>)
+}
+
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+export const listCompanyFundsWeeklyRates = (
+  company: CompanyType,
+  /** For example: '2022.25' i.e. the 25th week of 2022 */
+  periodExpression: string,
+  query: ListCompanySinglePeriodRatesQueryParams = {}
+) => listCompanyFundsSinglePeriodRates(AggregatedRecordType.week, company, periodExpression, query)
+
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+export const listCompanyFundsMonthlyRates = (
+  company: CompanyType,
+  /** For example: '2022-06' */
+  periodExpression: string,
+  query: ListCompanySinglePeriodRatesQueryParams = {}
+) => listCompanyFundsSinglePeriodRates(AggregatedRecordType.month, company, periodExpression, query)
+
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+export const listCompanyFundsQuarterlyRates = (
+  company: CompanyType,
+  /** For example: '2022.2' i.e. the 2nd quarter of 2022 */
+  periodExpression: string,
+  query: ListCompanySinglePeriodRatesQueryParams = {}
+) => listCompanyFundsSinglePeriodRates(
+  AggregatedRecordType.quarter, company, periodExpression, query
+)

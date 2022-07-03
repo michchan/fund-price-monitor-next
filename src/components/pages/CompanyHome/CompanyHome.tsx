@@ -1,6 +1,6 @@
 import { FC, useCallback, useState, ReactNode, HTMLProps, useMemo } from 'react'
 import { useTranslation } from 'next-i18next'
-import { CompanyType, FundPriceRecordWithDetails, FundType, RecordType, RiskLevel } from '@michchan/fund-price-monitor-lib'
+import { CompanyType, FundPriceChangeRateWithDetails, FundPriceRecordWithDetails, FundType, RecordType, AggregatedRecordType, RiskLevel } from '@michchan/fund-price-monitor-lib'
 import getArraySortNumber from 'simply-utils/dist/array/getArraySortNumber'
 import getNumberFromPercentageString from 'simply-utils/dist/number/getNumberFromPercentageString'
 import sortTableRowsByEachCell, { TableCellSortState } from 'simply-utils/dist/algo/sortTableRowsByEachCell'
@@ -17,7 +17,18 @@ import Table, { Props as TableProps } from 'components/organisms/Table'
 import { LOCALES, mapLocaleToApiLocale } from 'utils/i18n'
 import Select, { SelectOption } from 'components/molecules/Select'
 
+const formatChangeRate = (value: number) => `${Number(value)?.toFixed(2)}%`
+
 type Record = FundPriceRecordWithDetails<FundType.mpf, RecordType.latest>
+
+type WeeklyChangeRateRecord = FundPriceChangeRateWithDetails<
+FundType.mpf, AggregatedRecordType.week>
+
+type MonthlyChangeRateRecord = FundPriceChangeRateWithDetails<
+FundType.mpf, AggregatedRecordType.month>
+
+type QuarterlyChangeRateRecord = FundPriceChangeRateWithDetails<
+FundType.mpf, AggregatedRecordType.quarter>
 
 const RISK_PRIORITY: { [key in Record['riskLevel']]: number } = {
   unknown: 0,
@@ -40,6 +51,9 @@ const RECORD_TABLE_HEAD_CONFIG: ([ReactNode] | [ReactNode, CellProps])[] = [
   ['Name'],
   ['Price', { isDefaultToDescending: true }],
   ['Day +/-', { isDefaultToDescending: true }],
+  ['Week +/-', { isDefaultToDescending: true }],
+  ['Month +/-', { isDefaultToDescending: true }],
+  ['Quarter +/-', { isDefaultToDescending: true }],
   ['Risk Level', { className: textAlign.center }],
   ['Updated Date', { className: textAlign.right, isDefaultToDescending: true, isSortSymbolBeforeTitle: true }],
   ['Recorded Time', { className: textAlign.right, isDefaultToDescending: true, isSortSymbolBeforeTitle: true }],
@@ -49,11 +63,21 @@ export interface Props {
   companies: CompanyType[];
   company: CompanyType;
   records: Record[];
+  weekRateRecords: WeeklyChangeRateRecord[];
+  monthRateRecords: MonthlyChangeRateRecord[];
+  quarterRateRecords: QuarterlyChangeRateRecord[];
 }
 
 // @REASON: This is a component
 // eslint-disable-next-line max-lines-per-function
-const CompanyHome: FC<Props> = ({ companies, company, records }) => {
+const CompanyHome: FC<Props> = ({
+  companies,
+  company,
+  records,
+  weekRateRecords,
+  monthRateRecords,
+  quarterRateRecords,
+}) => {
   const router = useRouter()
   const { t: tCommon, i18n } = useTranslation('common')
 
@@ -103,15 +127,23 @@ const CompanyHome: FC<Props> = ({ companies, company, records }) => {
   }, [])
 
   const getRecordValueByCellIndex = useCallback((r: Record, cellIndex: number): string | number => {
-    if (cellIndex === 0) return r.code
-    if (cellIndex === 1) return r.name[mapLocaleToApiLocale(i18n.language)] || r.name.en
-    if (cellIndex === 2) return r.price
-    if (cellIndex === 3) return `${Number(r.dayPriceChangeRate)?.toFixed(2)}%`
-    if (cellIndex === 4) return r.riskLevel
-    if (cellIndex === 5) return r.updatedDate
-    if (cellIndex === 6) return dayjs(r.time).format('YYYY-MM-DD HH:mm:ss')
-    return ''
-  }, [i18n.language])
+    const weekRate = weekRateRecords.find(rateRec => rateRec.code === r.code)?.priceChangeRate
+    const monthRate = monthRateRecords.find(rateRec => rateRec.code === r.code)?.priceChangeRate
+    const quarterRate = quarterRateRecords.find(rateRec => rateRec.code === r.code)?.priceChangeRate
+    const values = [
+      r.code,
+      r.name[mapLocaleToApiLocale(i18n.language)] || r.name.en,
+      r.price,
+      formatChangeRate(r.dayPriceChangeRate ?? 0),
+      formatChangeRate(weekRate ?? 0),
+      formatChangeRate(monthRate ?? 0),
+      formatChangeRate(quarterRate ?? 0),
+      r.riskLevel,
+      r.updatedDate,
+      dayjs(r.time).format('YYYY-MM-DD HH:mm:ss'),
+    ]
+    return values[cellIndex] ?? ''
+  }, [i18n.language, monthRateRecords, quarterRateRecords, weekRateRecords])
 
   const renderRecordsRows = useCallback(() => {
     const sortedRecords = sortTableRowsByEachCell(records, sortState, (a, b, cellIndex) => {

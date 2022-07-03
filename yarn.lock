@@ -197,10 +197,10 @@
     eslint-plugin-react-hooks "4.x"
     standard-version "^9.3.2"
 
-"@michchan/fund-price-monitor-lib@0.9.2":
-  version "0.9.2"
-  resolved "https://registry.yarnpkg.com/@michchan/fund-price-monitor-lib/-/fund-price-monitor-lib-0.9.2.tgz#f724b40e0989beb95738bad6eb9bef616ac430c4"
-  integrity sha512-Nhpq2wfl4xTi5mP10tD45hrfdz6gGqlFk2aXfhm+eWGC/40ZhsJY/8ZzZtpKC8JsdUisNAvFI7ABBAkofSfmpw==
+"@michchan/fund-price-monitor-lib@0.12.0":
+  version "0.12.0"
+  resolved "https://registry.yarnpkg.com/@michchan/fund-price-monitor-lib/-/fund-price-monitor-lib-0.12.0.tgz#1a22a4bf5e5e0026be54fa3cb05ddbce1d4ebc6e"
+  integrity sha512-UFu//1H5he1OwFucYzZQKe4mSRuOVFQfGUKUKD9vvhfVeUKNPcVKtELgslcmEThiKf04QSFtb4eBwtc67JAElA==
 
 "@next/env@12.1.0":
   version "12.1.0"
@@ -3692,10 +3692,10 @@ signal-exit@^3.0.0:
   resolved "https://registry.yarnpkg.com/signal-exit/-/signal-exit-3.0.3.tgz#a1410c2edd8f077b08b4e253c8eacfcaf057461c"
   integrity sha512-VUJ49FC8U1OxwZLxIbTTrDvLnf/6TDgxZcK8wxR8zs13xpx7xbG60ndBlhNrFi2EMuFRoeDoJO7wthSLq42EjA==
 
-simply-utils@0.62.0:
-  version "0.62.0"
-  resolved "https://registry.yarnpkg.com/simply-utils/-/simply-utils-0.62.0.tgz#8fe8496df663ad10405c1dfbf30c31604dc674d4"
-  integrity sha512-tcCpc0VBfzKq4jNrfoXnakdJch6uRwNIpI6PIcvAIwCejcyYBxMY6ZGK04amyen++DRkXpAf8xYXjeXXfTfe2g==
+simply-utils@0.63.2:
+  version "0.63.2"
+  resolved "https://registry.yarnpkg.com/simply-utils/-/simply-utils-0.63.2.tgz#7a42b3bd5c0ea2449a04cad46ec1cad25d54e599"
+  integrity sha512-0RMMYYUqujeUK2fFALlQLhstfwr1eMvLoy8AiLcewMetqppsE9GuR2Je4iRG/JlyoRcf9tPx990xNmBlObWZ3A==
   dependencies:
     "@types/node-fetch" "^2.5.10"
     eastasianwidth "0.2.0"
