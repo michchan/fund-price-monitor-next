@@ -16,5 +16,6 @@
 # Non JavaScript/TypeScript files
 **/*.svg
 
-# Ignore auto-generated scss.d.ts files
+# Ignore auto-generated .d.ts files
+next-env.d.ts
 **/*.scss.d.ts
