@@ -12,8 +12,8 @@ import { listCompanies, listCompanyFundsMonthlyRates, listCompanyFundsQuarterlyR
 // @TODO: Move to common utils/libs
 const getWeekExpression = (date: Date): string => {
   const year = date.getFullYear()
-  const month = getWeekOfYear(date)
-  return `${year}.${month}`
+  const week = getWeekOfYear(date)
+  return `${year}.${week}`
 }
 
 // @TODO: Move to common utils/libs
