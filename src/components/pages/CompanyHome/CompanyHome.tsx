@@ -89,14 +89,6 @@ const CompanyHome: FC<Props> = ({
     router.push(`/${value}/${company}`, undefined, { locale: value })
   }, [company, router])
 
-  const renderLanguageSelect = () => (
-    <Select
-      className={styles.localeSelect}
-      onChange={handleLanguageSelectChange}
-      options={localeOptions}
-      value={{ value: i18n.language, label: i18n.language }}/>
-  )
-
   /** ------------------------- Company select ------------------------- */
 
   const companyOptions = useMemo(() => companies.map(value => ({
@@ -109,14 +101,6 @@ const CompanyHome: FC<Props> = ({
     const { value } = option
     router.push(`/${i18n.language}/${value}`, undefined, { locale: i18n.language })
   }, [i18n.language, router])
-
-  const renderCompanySelect = () => (
-    <Select
-      className={styles.companySelect}
-      onChange={handleCompanySelectChange}
-      options={companyOptions}
-      value={{ value: company, label: company }}/>
-  )
 
   /** ------------------------- Table sorting/rendering ------------------------- */
 
@@ -204,18 +188,15 @@ const CompanyHome: FC<Props> = ({
     )
   }, [handleSort])
 
-  const renderRecordsTable = () => (
-    <Table
-      renderHeaderRow={renderRecordsHeaderRow}
-      renderRows={renderRecordsRows}
-      sortState={sortState}/>
-  )
-
   return (
     <div className={styles.container}>
       <PageDocumentHead/>
       <header className={styles.headerSection}>
-        {renderLanguageSelect()}
+        <Select
+          className={styles.localeSelect}
+          onChange={handleLanguageSelectChange}
+          options={localeOptions}
+          value={{ value: i18n.language, label: i18n.language }}/>
       </header>
       <main className={styles.main}>
         <section className={styles.titleSection}>
@@ -223,10 +204,17 @@ const CompanyHome: FC<Props> = ({
           <p className={styles.titleSection_subtitle}>{tCommon('subtitle')}</p>
         </section>
         <section className={styles.filterSection}>
-          {renderCompanySelect()}
+          <Select
+            className={styles.companySelect}
+            onChange={handleCompanySelectChange}
+            options={companyOptions}
+            value={{ value: company, label: company }}/>
         </section>
         <section className={styles.tableSection}>
-          {renderRecordsTable()}
+          <Table
+            renderHeaderRow={renderRecordsHeaderRow}
+            renderRows={renderRecordsRows}
+            sortState={sortState}/>
         </section>
       </main>
       <PageFooter/>
