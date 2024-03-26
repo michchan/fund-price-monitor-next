@@ -146,23 +146,34 @@ const CompanyHome: FC<Props> = ({
       }
       return getArraySortNumber(valueA, valueB)
     })
-    return sortedRecords.map(record => (
-      <tr key={`${company}-${record.code}`}>
-        {Array(RECORD_TABLE_HEAD_CONFIG.length)
-          .fill({})
-          .map((v, cellIndex) => {
-            const headCellProps = RECORD_TABLE_HEAD_CONFIG[cellIndex][1]
-            return (
-              <td
-                {...omit(headCellProps, ['isDefaultToDescending', 'isSortSymbolBeforeTitle'])}
-                key={cellIndex}>
-                {getRecordValueByCellIndex(record, cellIndex)}
-              </td>
-            )
-          })}
-      </tr>
-    ))
-  }, [company, getRecordValueByCellIndex, records, sortState])
+    return sortedRecords.map(record => {
+      const onClick = () => {
+        router.push(
+          `/${i18n.language}/${company}/${record.code}`,
+          undefined,
+          { locale: i18n.language }
+        )
+      }
+      return (
+        <tr
+          className={styles.tableRow} key={`${company}-${record.code}`}
+          onClick={onClick}>
+          {Array(RECORD_TABLE_HEAD_CONFIG.length)
+            .fill({})
+            .map((v, cellIndex) => {
+              const headCellProps = RECORD_TABLE_HEAD_CONFIG[cellIndex][1]
+              return (
+                <td
+                  {...omit(headCellProps, ['isDefaultToDescending', 'isSortSymbolBeforeTitle'])}
+                  key={cellIndex}>
+                  {getRecordValueByCellIndex(record, cellIndex)}
+                </td>
+              )
+            })}
+        </tr>
+      )
+    })
+  }, [company, getRecordValueByCellIndex, i18n.language, records, router, sortState])
 
   const renderRecordsHeaderRow = useCallback<TableProps['renderHeaderRow']>(renderSortSymbol => {
     const renderCell = (

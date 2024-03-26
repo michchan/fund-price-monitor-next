@@ -9,6 +9,9 @@ import {
   ListCompanyRecordsResponse,
   ListCompanySinglePeriodRatesResponse,
   ListCompanySinglePeriodRatesQueryParams,
+  ListSingleFundRecordsResponse,
+  ListSingleFundRecordsPathParams,
+  ListSingleFundRecordsQueryParams,
 } from '@michchan/fund-price-monitor-lib'
 import { isomorphicFetch, withQuery } from 'utils/restApi'
 
@@ -32,6 +35,16 @@ export const listCompanyRecords = <RT extends RecordType> (
     headers: withApiKey(),
   }
 ).then(res => res.json() as Promise<ListCompanyRecordsResponse<FundType.mpf, RT>>)
+
+export const listSingleFundRecords = <RT extends RecordType>(
+  company: ListSingleFundRecordsPathParams['company'],
+  code: ListSingleFundRecordsPathParams['code'],
+  query: ListSingleFundRecordsQueryParams = {}
+): Promise<ListSingleFundRecordsResponse<FundType.mpf, RT>> => isomorphicFetch(
+  withQuery(`${HOST}/${company}/${code}`, query), {
+    headers: withApiKey(),
+  }
+).then(res => res.json() as Promise<ListSingleFundRecordsResponse<FundType.mpf, RT>>)
 
 type ChangeRatesResponse <RT extends AggregatedRecordType> = ListCompanySinglePeriodRatesResponse<
 FundType.mpf, RT>
