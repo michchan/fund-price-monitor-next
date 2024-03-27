@@ -22,6 +22,8 @@ const FundHome: FC<Props> = ({ company, code, timeSeries }) => {
   const { t: tFundHome, i18n } = useTranslation('fundHome')
   const router = useRouter()
 
+  const haveData = !!timeSeries.result
+
   /** ------------------------- Langauge select ------------------------- */
 
   const handleLanguageSelectChange = useCallback((option: SelectOption | null) => {
@@ -31,10 +33,10 @@ const FundHome: FC<Props> = ({ company, code, timeSeries }) => {
   }, [code, company, router])
 
   useEffect(() => {
-    if (router) router.back()
-  }, [router])
+    if (!haveData && router) router.back()
+  }, [haveData, router])
 
-  if (!timeSeries.result)
+  if (!haveData)
     return null
 
   const apiLocale = mapLocaleToApiLocale(i18n.language)
