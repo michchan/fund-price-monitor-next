@@ -35,7 +35,10 @@ export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
   const company = params?.company as CompanyType
   const code = params?.code as string
 
-  const timeSeries = await listSingleFundRecords(company, code, { all: true })
+  // TODO: Fix URI-unsafe code issue
+  const timeSeries: Props['timeSeries'] = code.includes('/')
+    ? { result: false, error: { message: 'Non-handled URI-unsafe code issue', code: '' } }
+    : await listSingleFundRecords(company, code, { all: true })
 
   return {
     props: {
