@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.12.1](https://github.com/michchan/fund-price-monitor-next/compare/v0.12.0...v0.12.1) (2024-03-27)
+
+
+### Bug Fixes
+
+* disable URI-unsafe fund data fetching ([5897b05](https://github.com/michchan/fund-price-monitor-next/commit/5897b05e544ecd760fc7c609a18154885fd46159))
+* no router instance found when build ([e49417b](https://github.com/michchan/fund-price-monitor-next/commit/e49417bc02a0e731532e0a3bfa522310223b88b7))
+
 ## [0.12.0](https://github.com/michchan/fund-price-monitor-next/compare/v0.11.2...v0.12.0) (2024-03-27)
 
 
