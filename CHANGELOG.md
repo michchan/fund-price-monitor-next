@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.12.2](https://github.com/michchan/fund-price-monitor-next/compare/v0.12.1...v0.12.2) (2024-03-27)
+
+
+### Bug Fixes
+
+* fund home always route back to home ([3781989](https://github.com/michchan/fund-price-monitor-next/commit/3781989ffaecac705ea25819becaa8f2fb386c0e))
+
 ### [0.12.1](https://github.com/michchan/fund-price-monitor-next/compare/v0.12.0...v0.12.1) (2024-03-27)
 
 
