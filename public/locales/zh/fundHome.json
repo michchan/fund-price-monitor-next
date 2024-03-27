@@ -1,0 +1,24 @@
+{
+    "company": "",
+    "price": "",
+    "updatedDate": "",
+    "launchDate": "",
+    "initialPrice": "",
+    "fundType": {
+        "label": "",
+        "value": {
+            "mpf": ""
+        }
+    },
+    "riskLevel": {
+        "label": "",
+        "value": {
+            "veryLow": "",
+            "low": "",
+            "neutral": "",
+            "high": "",
+            "veryHigh": "",
+            "unknown": ""
+        }
+    }
+}

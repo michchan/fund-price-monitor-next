@@ -1,0 +1,24 @@
+{
+  "company": "Company",
+  "price": "Price",
+  "updatedDate": "Updated date",
+  "launchDate": "Inception date",
+  "initialPrice": "Initial price",
+  "fundType": {
+    "label": "Fund type", 
+    "value": {
+      "mpf": "MPF"
+    }
+  },
+  "riskLevel": {
+    "label": "Risk level",
+    "value": {
+      "veryLow": "Very low",
+      "low": "Low",
+      "neutral": "Neutral",
+      "high": "Very high",
+      "veryHigh": "Very high",
+      "unknown": "N/A"
+    }
+  }
+}

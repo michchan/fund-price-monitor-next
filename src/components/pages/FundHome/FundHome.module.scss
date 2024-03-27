@@ -1,0 +1,63 @@
+// @TODO: Implement base styles path
+@import '../../../styles/colors.scss';
+@import '../../../styles/mixins.scss';
+@import '../../../styles/constants.scss';
+
+.container {
+  min-height: 100vh;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+  max-width: $app_max_width;
+  padding-bottom: 60px;
+}
+
+.titleSection {
+  padding: $app_padding_verti $app_padding_horiz;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  @include responsive('min-height', 200px, 180px, 140px);
+
+  & > * {
+    text-align: center;
+  }
+
+  // @TODO: Refractor shared typography styles
+  &_title {
+    text-align: left;
+    margin-bottom: 12px;
+    color: $color_title;
+    @include responsive('font-size', 42px, 36px, 24px);
+  } 
+
+  &_subtitle {
+    text-align: left;
+    margin-top: 0;
+    color: $color_subtitle;
+    @include responsive('font-size', 16px, 14px, 12px);
+  }
+}
+
+.headerSection {
+  width: 100%;
+  max-width: $app_max_width;
+  padding: $app_padding_verti $app_padding_horiz;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.localeSelect {
+  width: 120px !important;
+}
