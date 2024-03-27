@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.12.0](https://github.com/michchan/fund-price-monitor-next/compare/v0.11.2...v0.12.0) (2024-03-27)
+
+
+### Features
+
+* add route and prefetching of single fund page ([dc33959](https://github.com/michchan/fund-price-monitor-next/commit/dc339592b66a5ff4dfcdf01c697142a58621964f))
+* display fund page with basic info by language ([8f60afc](https://github.com/michchan/fund-price-monitor-next/commit/8f60afc7929ee66312fb2a5d9ef757a559971200))
+* translate fund home language - zh ([8cb564f](https://github.com/michchan/fund-price-monitor-next/commit/8cb564f8481c2efd887e03d64d2981f215831a2d))
+
 ### [0.11.2](https://github.com/michchan/fund-price-monitor-next/compare/v0.11.1...v0.11.2) (2022-12-01)
 
 
