@@ -1,24 +1,25 @@
 {
-    "company": "",
-    "price": "",
-    "updatedDate": "",
-    "launchDate": "",
-    "initialPrice": "",
+    "company": "公司",
+    "price": "價格",
+    "updatedDate": "更新日期",
+    "launchDate": "成立日期",
+    "initialPrice": "初始價格",
     "fundType": {
-        "label": "",
-        "value": {
-            "mpf": ""
-        }
+      "label": "基金類型",
+      "value": {
+        "mpf": "強積金"
+      }
     },
     "riskLevel": {
-        "label": "",
-        "value": {
-            "veryLow": "",
-            "low": "",
-            "neutral": "",
-            "high": "",
-            "veryHigh": "",
-            "unknown": ""
-        }
+      "label": "風險水平",
+      "value": {
+        "veryLow": "極低",
+        "low": "低",
+        "neutral": "中性",
+        "high": "高",
+        "veryHigh": "極高",
+        "unknown": "未知"
+      }
     }
-}
+  }
+  
