@@ -4,7 +4,7 @@ import PageFooter from 'components/molecules/PageFooter'
 import capitalize from 'lodash/capitalize'
 import { useTranslation } from 'next-i18next'
 import { useRouter } from 'next/router'
-import { FC, useCallback } from 'react'
+import { FC, useCallback, useEffect } from 'react'
 
 import { LOCALES, mapLocaleToApiLocale } from 'utils/i18n'
 import Select, { SelectOption } from 'components/molecules/Select'
@@ -30,10 +30,12 @@ const FundHome: FC<Props> = ({ company, code, timeSeries }) => {
     router.push(`/${value}/${company}/${code}`, undefined, { locale: value })
   }, [code, company, router])
 
-  if (!timeSeries.result) {
-    router.back()
+  useEffect(() => {
+    if (router) router.back()
+  }, [router])
+
+  if (!timeSeries.result)
     return null
-  }
 
   const apiLocale = mapLocaleToApiLocale(i18n.language)
   const latestTimeSeriesItem = timeSeries.data[timeSeries.data.length - 1]
