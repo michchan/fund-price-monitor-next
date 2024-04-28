@@ -81,7 +81,7 @@ const FundHome: FC<Props> = ({ company, code, timeSeries }) => {
         <Line data={{
           labels: timeSeries.data.map(timeSeriesItem => dayjs(timeSeriesItem.time).format('DD-MM-YY')),
           datasets: [{
-            label: `${timeSeries.data.length}`,
+            label: tFundHome('priceChart.label'),
             data: timeSeries.data.map(timeSeriesItem => timeSeriesItem.price),
           }],
         }}/>

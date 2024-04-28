@@ -20,5 +20,8 @@
       "veryHigh": "Very high",
       "unknown": "N/A"
     }
+  },
+  "priceChart": {
+    "label": "Fund price"
   }
 }
