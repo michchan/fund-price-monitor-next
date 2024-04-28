@@ -1,3 +1,7 @@
+import 'chart.js/auto'
+
+import { Line } from 'react-chartjs-2'
+import dayjs from 'dayjs'
 import { CompanyType, ListSingleFundRecordsResponse } from '@michchan/fund-price-monitor-lib'
 import PageDocumentHead from 'components/molecules/PageDocumentHead'
 import PageFooter from 'components/molecules/PageFooter'
@@ -69,11 +73,18 @@ const FundHome: FC<Props> = ({ company, code, timeSeries }) => {
           <p className={styles.titleSection_subtitle}>{`${tFundHome('price')}: ${price}`}</p>
           <p className={styles.titleSection_subtitle}>{`${tFundHome('updatedDate')}: ${updatedDate}`}</p>
           <p className={styles.titleSection_subtitle}>{`${tFundHome('company')}: ${capitalize(company)}`}</p>
-          <p className={styles.titleSection_subtitle}>{`${tFundHome('fundType.label')}: ${tFundHome(`fundType.value.${fundType}`)}`}</p>
+          {<p className={styles.titleSection_subtitle}>{`${tFundHome('fundType.label')}: ${fundType ? tFundHome(`fundType.value.${fundType}`) : '--'}`}</p>}
           <p className={styles.titleSection_subtitle}>{`${tFundHome('riskLevel.label')}: ${tFundHome(`riskLevel.value.${riskLevel}`)}`}</p>
           <p className={styles.titleSection_subtitle}>{`${tFundHome('launchDate')}: ${launchedDate}`}</p>
           <p className={styles.titleSection_subtitle}>{`${tFundHome('initialPrice')}: ${initialPrice}`}</p>
         </section>
+        <Line data={{
+          labels: timeSeries.data.map(timeSeriesItem => dayjs(timeSeriesItem.time).format('DD-MM-YY')),
+          datasets: [{
+            label: `${timeSeries.data.length}`,
+            data: timeSeries.data.map(timeSeriesItem => timeSeriesItem.price),
+          }],
+        }}/>
       </main>
       <PageFooter/>
     </div>
