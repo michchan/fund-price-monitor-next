@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.13.0](https://github.com/michchan/fund-price-monitor-next/compare/v0.12.2...v0.13.0) (2024-05-04)
+
+
+### Features
+
+* add line chart for each fund ([0ba8b78](https://github.com/michchan/fund-price-monitor-next/commit/0ba8b7846c71eccd325ef701e0c04cad8339d8ce))
+* add line chart label ([e2939db](https://github.com/michchan/fund-price-monitor-next/commit/e2939db0a28a40757a6b195d4d160431a9d98b41))
+* render all fund price data ([8a220e7](https://github.com/michchan/fund-price-monitor-next/commit/8a220e77f155ca81af6df66dcf854709e6358187))
+
 ### [0.12.2](https://github.com/michchan/fund-price-monitor-next/compare/v0.12.1...v0.12.2) (2024-03-27)
 
 
