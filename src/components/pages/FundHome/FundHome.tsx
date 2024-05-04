@@ -83,6 +83,7 @@ const FundHome: FC<Props> = ({ company, code, timeSeries }) => {
           datasets: [{
             label: tFundHome('priceChart.label'),
             data: timeSeries.data.map(timeSeriesItem => timeSeriesItem.price),
+            pointRadius: 0,
           }],
         }}/>
       </main>

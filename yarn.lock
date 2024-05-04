@@ -202,10 +202,10 @@
     eslint-plugin-react-hooks "4.x"
     standard-version "^9.3.2"
 
-"@michchan/fund-price-monitor-lib@0.12.0":
-  version "0.12.0"
-  resolved "https://registry.yarnpkg.com/@michchan/fund-price-monitor-lib/-/fund-price-monitor-lib-0.12.0.tgz#1a22a4bf5e5e0026be54fa3cb05ddbce1d4ebc6e"
-  integrity sha512-UFu//1H5he1OwFucYzZQKe4mSRuOVFQfGUKUKD9vvhfVeUKNPcVKtELgslcmEThiKf04QSFtb4eBwtc67JAElA==
+"@michchan/fund-price-monitor-lib@0.13.1":
+  version "0.13.1"
+  resolved "https://registry.yarnpkg.com/@michchan/fund-price-monitor-lib/-/fund-price-monitor-lib-0.13.1.tgz#4c1022cb94883352710a41b7de954402222e753b"
+  integrity sha512-WZkXXvIOjl9ZkY8Vi+0pmlTU3UE2+4SvAoyjJM1cznk3QoX6fFWv3qbs6xkEgDvmewqb84wUXfUwefqBT2VJvA==
 
 "@next/env@12.1.0":
   version "12.1.0"

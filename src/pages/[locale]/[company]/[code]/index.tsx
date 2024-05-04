@@ -4,7 +4,7 @@ import { GetStaticPaths, GetStaticProps } from 'next'
 import { listCompanies, listCompanyRecords, listSingleFundRecords } from 'services/fundprices'
 import { getFallbackLocale, getLocalesPaths } from 'utils/i18n'
 import { Props } from 'components/pages/FundHome'
-import { CompanyType } from '@michchan/fund-price-monitor-lib'
+import { CompanyType, ListSingleFundRecordsTenor } from '@michchan/fund-price-monitor-lib'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 
 // eslint-disable-next-line require-await
@@ -38,7 +38,8 @@ export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
   // TODO: Fix URI-unsafe code issue
   const timeSeries: Props['timeSeries'] = code.includes('/')
     ? { result: false, error: { message: 'Non-handled URI-unsafe code issue', code: '' } }
-    : await listSingleFundRecords(company, code, { all: true })
+    // TODO: List different tenors
+    : await listSingleFundRecords(company, code, { tenor: ListSingleFundRecordsTenor.all })
 
   return {
     props: {
