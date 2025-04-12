@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.14.0](https://github.com/michchan/fund-price-monitor-next/compare/v0.13.0...v0.14.0) (2025-04-12)
+
+
+### Features
+
+* Add back button for fund home ([94597ea](https://github.com/michchan/fund-price-monitor-next/commit/94597ead175c0653e3e664622478e64f0d7ec448))
+* Go back to list page ([20d3d31](https://github.com/michchan/fund-price-monitor-next/commit/20d3d3175d503f58126d43613de3db724fabc72d))
+* Support data selection by quarter ([9eef85c](https://github.com/michchan/fund-price-monitor-next/commit/9eef85c9924c80e39a4f9054b3d45fcc79f5ae95))
+
 ## [0.13.0](https://github.com/michchan/fund-price-monitor-next/compare/v0.12.2...v0.13.0) (2024-05-04)
 
 
