@@ -29,6 +29,10 @@ const FundHome: FC<Props> = ({ quarter, company, code, timeSeries }) => {
 
   const haveData = !!timeSeries.result
 
+  const handleBack = useCallback(() => {
+    router.replace(`/${i18n.language}/${quarter}/${company}`)
+  }, [company, i18n.language, quarter, router])
+
   /** ------------------------- Langauge select ------------------------- */
 
   const handleLanguageSelectChange = useCallback((option: SelectOption | null) => {
@@ -63,7 +67,7 @@ const FundHome: FC<Props> = ({ quarter, company, code, timeSeries }) => {
         <button
           className={styles.headerSection_backButton}
           // eslint-disable-next-line react/jsx-handler-names
-          onClick={router.back}
+          onClick={handleBack}
           type='button'>
           <svg
             className='bi bi-chevron-left' fill='currentColor'
