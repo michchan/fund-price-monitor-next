@@ -27,13 +27,13 @@ export const listQuarters = (
   query: ListQuartersQueryParams = {}
 ): Promise<ListQuartersResponse> => isomorphicFetch(withQuery(`${HOST}/quarters`, query), {
   headers: withApiKey(),
-}).then(res => res.json() as Promise<ListQuartersResponse>)
+}) as Promise<ListQuartersResponse>
 
 export const listCompanies = (
   query: ListCompaniesQueryParams = {}
 ): Promise<ListCompaniesResponse> => isomorphicFetch(withQuery(`${HOST}/companies`, query), {
   headers: withApiKey(),
-}).then(res => res.json() as Promise<ListCompaniesResponse>)
+}) as Promise<ListCompaniesResponse>
 
 export const listCompanyRecords = <RT extends RecordType> (
   company: CompanyType,
@@ -42,7 +42,7 @@ export const listCompanyRecords = <RT extends RecordType> (
   withQuery(`${HOST}/${company}`, query), {
     headers: withApiKey(),
   }
-).then(res => res.json() as Promise<ListCompanyRecordsResponse<FundType.mpf, RT>>)
+) as Promise<ListCompanyRecordsResponse<FundType.mpf, RT>>
 
 export const listSingleFundRecords = <RT extends RecordType>(
   company: ListSingleFundRecordsPathParams['company'],
@@ -52,7 +52,7 @@ export const listSingleFundRecords = <RT extends RecordType>(
   withQuery(`${HOST}/${company}/${code}`, query), {
     headers: withApiKey(),
   }
-).then(res => res.json() as Promise<ListSingleFundRecordsResponse<FundType.mpf, RT>>)
+) as Promise<ListSingleFundRecordsResponse<FundType.mpf, RT>>
 
 type ChangeRatesResponse <RT extends AggregatedRecordType> = ListCompanySinglePeriodRatesResponse<
 FundType.mpf, RT>
@@ -77,7 +77,7 @@ export const listCompanyFundsSinglePeriodRates = <RT extends AggregatedRecordTyp
     withQuery(`${HOST}/${company}/${periodPath}/${periodExpression}`, query), {
       headers: withApiKey(),
     }
-  ).then(res => res.json() as Promise<ChangeRatesResponse<RT>>)
+  ) as Promise<ChangeRatesResponse<RT>>
 }
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types

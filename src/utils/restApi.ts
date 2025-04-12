@@ -2,7 +2,6 @@ import qs from 'qs'
 import nodeFetch, {
   RequestInfo as NodeFetchRequestInfo,
   RequestInit as NodeFetchRequestInit,
-  Response as NodeFetchResponse,
 } from 'node-fetch'
 import { isServerSide } from './environment'
 
@@ -11,7 +10,10 @@ const HttpProxyAgent = require('http-proxy-agent')
 
 const httpProxy = process.env.HTTP_PROXY
 const httpsProxy = process.env.HTTPS_PROXY
+const isInMemoryCacheEnabled = /^true$/.test(process.env.ENABLE_IN_MEMORY_CACHE ?? '')
 const noProxyList = (process.env.NO_PROXY || '').trim().split(',')
+
+const cache = new Map()
 
 const getAgent = (url: NodeFetchRequestInfo | RequestInfo) => {
   const { hostname, protocol } = new URL(url.toString())
@@ -23,17 +25,26 @@ const getAgent = (url: NodeFetchRequestInfo | RequestInfo) => {
   return new Agent(proxy)
 }
 
-export const isomorphicFetch = (
+export const isomorphicFetch = async <T> (
   url: NodeFetchRequestInfo | RequestInfo,
   init?: NodeFetchRequestInit | RequestInit
-): Promise<NodeFetchResponse | Response> => {
+): Promise<T> => {
   if (isServerSide()) {
-    return nodeFetch(url as NodeFetchRequestInfo, {
+    const cacheKey = url.toString()
+    if (isInMemoryCacheEnabled) {
+      const cachedResponseJson = await cache.get(cacheKey)
+      if (cachedResponseJson) return cachedResponseJson
+    }
+    const responseJson = await nodeFetch(url as NodeFetchRequestInfo, {
       ...init as NodeFetchRequestInit,
       agent: getAgent(url),
-    })
+    }).then(res => res.json())
+    if (isInMemoryCacheEnabled)
+      cache.set(cacheKey, responseJson)
+
+    return responseJson
   }
-  return fetch(url as RequestInfo, init as RequestInit)
+  return fetch(url as RequestInfo, init as RequestInit).then(res => res.json())
 }
 
 /**

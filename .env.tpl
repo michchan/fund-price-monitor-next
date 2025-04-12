@@ -9,6 +9,7 @@ HTML_EXTENSION_RETAIN_WHITELIST='index.html,error.html,404.html'
 # ------------- Build-time -------------
 API_HOST=''
 API_KEY=''
+ENABLE_IN_MEMORY_CACHE=true
 
 # ------------- Local dev networking -------------
 NO_PROXY='localhost'
