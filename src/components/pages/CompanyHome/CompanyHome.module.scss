@@ -59,11 +59,18 @@
 
 .filterSection {
   padding: $app_padding_verti $app_padding_horiz;
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
 }
 
 .tableSection {
   width: 100%;
   padding: $app_padding_verti 0px;
+}
+
+.quarterSelect {
+  width: 120px !important;
 }
 
 .localeSelect {

@@ -61,6 +61,9 @@ const RECORD_TABLE_HEAD_CONFIG: ([ReactNode] | [ReactNode, CellProps])[] = [
 
 export interface Props {
   companies: CompanyType[];
+  quarter: string;
+  quarters: string[];
+  quartersForCompany: string[];
   company: CompanyType;
   records: Record[];
   weekRateRecords: WeeklyChangeRateRecord[];
@@ -72,6 +75,9 @@ export interface Props {
 // eslint-disable-next-line max-lines-per-function
 const CompanyHome: FC<Props> = ({
   companies,
+  quarter,
+  quarters,
+  quartersForCompany,
   company,
   records,
   weekRateRecords,
@@ -86,8 +92,22 @@ const CompanyHome: FC<Props> = ({
   const handleLanguageSelectChange = useCallback((option: SelectOption | null) => {
     if (!option) return
     const { value } = option
-    router.push(`/${value}/${company}`, undefined, { locale: value })
-  }, [company, router])
+    router.push(`/${value}/${quarter}/${company}`, undefined, { locale: value })
+  }, [company, quarter, router])
+
+  /** ------------------------- Quarter select ------------------------- */
+  const quarterOptions = useMemo(() => quarters
+    .map(quarter => ({ label: quarter, value: quarter })), [quarters])
+
+  const handleQuarterSelectChange = useCallback((option: SelectOption | null) => {
+    if (!option) return
+    const { value } = option
+    if (!quartersForCompany.includes(value)) {
+      router.push(`/${i18n.language}/${value}`, undefined, { locale: i18n.language })
+      return
+    }
+    router.push(`/${i18n.language}/${value}/${company}`, undefined, { locale: i18n.language })
+  }, [company, i18n.language, quartersForCompany, router])
 
   /** ------------------------- Company select ------------------------- */
 
@@ -99,8 +119,8 @@ const CompanyHome: FC<Props> = ({
   const handleCompanySelectChange = useCallback((option: SelectOption | null) => {
     if (!option) return
     const { value } = option
-    router.push(`/${i18n.language}/${value}`, undefined, { locale: i18n.language })
-  }, [i18n.language, router])
+    router.push(`/${i18n.language}/${quarter}/${value}`, undefined, { locale: i18n.language })
+  }, [i18n.language, quarter, router])
 
   /** ------------------------- Table sorting/rendering ------------------------- */
 
@@ -149,7 +169,7 @@ const CompanyHome: FC<Props> = ({
     return sortedRecords.map(record => {
       const onClick = () => {
         router.push(
-          `/${i18n.language}/${company}/${record.code}`,
+          `/${i18n.language}/${quarter}/${company}/${record.code}`,
           undefined,
           { locale: i18n.language }
         )
@@ -173,7 +193,7 @@ const CompanyHome: FC<Props> = ({
         </tr>
       )
     })
-  }, [company, getRecordValueByCellIndex, i18n.language, records, router, sortState])
+  }, [company, getRecordValueByCellIndex, i18n.language, quarter, records, router, sortState])
 
   const renderRecordsHeaderRow = useCallback<TableProps['renderHeaderRow']>(renderSortSymbol => {
     const renderCell = (
@@ -215,6 +235,11 @@ const CompanyHome: FC<Props> = ({
           <p className={styles.titleSection_subtitle}>{tCommon('subtitle')}</p>
         </section>
         <section className={styles.filterSection}>
+          <Select
+            className={styles.quarterSelect}
+            onChange={handleQuarterSelectChange}
+            options={quarterOptions}
+            value={{ value: quarter, label: quarter }}/>
           <Select
             className={styles.companySelect}
             onChange={handleCompanySelectChange}

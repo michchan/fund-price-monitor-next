@@ -17,12 +17,13 @@ import styles from './FundHome.module.scss'
 const localeOptions = LOCALES.map(value => ({ value, label: value }))
 
 export interface Props {
+  quarter: string;
   company: CompanyType;
   code: string;
   timeSeries: ListSingleFundRecordsResponse;
 }
 
-const FundHome: FC<Props> = ({ company, code, timeSeries }) => {
+const FundHome: FC<Props> = ({ quarter, company, code, timeSeries }) => {
   const { t: tFundHome, i18n } = useTranslation('fundHome')
   const router = useRouter()
 
@@ -33,8 +34,8 @@ const FundHome: FC<Props> = ({ company, code, timeSeries }) => {
   const handleLanguageSelectChange = useCallback((option: SelectOption | null) => {
     if (!option) return
     const { value } = option
-    router.push(`/${value}/${company}/${code}`, undefined, { locale: value })
-  }, [code, company, router])
+    router.push(`/${value}/${quarter}/${company}/${code}`, undefined, { locale: value })
+  }, [code, company, quarter, router])
 
   useEffect(() => {
     if (!haveData && router) router.back()

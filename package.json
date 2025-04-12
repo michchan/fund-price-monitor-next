@@ -25,7 +25,7 @@
     "release": "standard-version --ignore-path .gitignore --commit-hook false"
   },
   "dependencies": {
-    "@michchan/fund-price-monitor-lib": "0.13.1",
+    "@michchan/fund-price-monitor-lib": "0.13.2",
     "chart.js": "^4.4.2",
     "dayjs": "^1.10.5",
     "html-react-parser": "^1.2.4",

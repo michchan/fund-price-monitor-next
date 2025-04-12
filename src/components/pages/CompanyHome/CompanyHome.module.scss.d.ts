@@ -4,6 +4,7 @@ export const filterSection: string;
 export const headerSection: string;
 export const localeSelect: string;
 export const main: string;
+export const quarterSelect: string;
 export const tableRow: string;
 export const tableSection: string;
 export const titleSection: string;
