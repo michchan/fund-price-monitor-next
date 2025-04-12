@@ -1,5 +1,6 @@
 export const container: string;
 export const headerSection: string;
+export const headerSection_backButton: string;
 export const localeSelect: string;
 export const main: string;
 export const titleSection: string;

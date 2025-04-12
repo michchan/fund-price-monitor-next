@@ -55,7 +55,16 @@
   max-width: $app_max_width;
   padding: $app_padding_verti $app_padding_horiz;
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
+
+  &_backButton {
+    appearance: none;
+    border: none;
+    background-color: transparent;
+    width: 50px;
+    padding: 12px;
+    cursor: pointer;
+  }
 }
 
 .localeSelect {
