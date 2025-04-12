@@ -26,7 +26,7 @@ AWS.config.update({ region: AWS_DEFAULT_REGION })
 
 const s3 = new AWS.S3()
 
-const isDir = name => !/\..+$/.test(name)
+const isDir = pathname => fs.lstatSync(path.join(ROOT_DIR, pathname)).isDirectory()
 
 const HTML_REGEXP = /\.html$/i
 const isHTML = name => HTML_REGEXP.test(name)
@@ -36,7 +36,7 @@ const ROOT_DIR = STATIC_BUILD_DIRNAME
 const readDirRecursive = dirname => fs.readdirSync(path.join(ROOT_DIR, dirname))
   .reduce((acc, eachPath) => {
     const jointPath = path.join(dirname, eachPath)
-    if (isDir(eachPath))
+    if (isDir(jointPath))
       return [...acc, ...readDirRecursive(jointPath)]
     return [...acc, jointPath]
   }, [])
